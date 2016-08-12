@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "single-cell RNA-seq data R packages"
 ---
 
 **Last updated:** `r Sys.Date()`
@@ -7,10 +7,30 @@ title: "Home"
 **Code version:** `r system("git log -1 --format='%H'", intern = TRUE)`
 
 
-## Notes
+## Background
 
-*  [Making a project site](tutorial.html) ([2015-12-12 lab meeting slides](../docs/repo-setup-tutorial-stephens-lab-2015-12-03.pdf))
+This site list some single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. 
 
-## Analysis
+* [Data description](data-description.html) 
 
-*  [An exmaple: using PCA to visualize some single-cell data](single-cell-pca.html)
+* [Codes for making ExpressionSet objects](scRNA-expressionSet.html)
+
+
+## Data packages
+
+* Human
+    * [Tung et al., 2016](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC): Human iPSC, counts, UMI
+    * [Leng et al., 2015](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC): Human ESC, reads, cell-cycle sorted
+
+* Mouse
+    * [Buettner et al., 2015](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC): mouse ESC, reads, ERCC spike-in control
+    * [Jaitin et at., 2014](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen): mouse spleen cells, counts, UMI
+    * [Treutlein et al., 2014](https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung): mouse lung cells, reads
+    * [Zeisel et al., 2015](https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain): Mouse brain, counts + UMI
+
+
+
+
+## Other related information
+
+* [How to make SummarizedExperiment object](summarized-experiment.html)

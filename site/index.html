@@ -11,7 +11,7 @@
 
 
 
-<title>Home</title>
+<title>single-cell RNA-seq data R packages</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -155,14 +155,14 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">ashlar</a>
+      <a class="navbar-brand" href="index.html">dataPackages</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="license.html">License</a></li>
-        <li><a href="https://github.com/jhsiao999/ashlar">GitHub</a></li>
+        <li><a href="https://github.com/jhsiao999/dataPackages-site">GitHub</a></li>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -171,29 +171,49 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">single-cell RNA-seq data R packages</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#analysis">Analysis</a></li>
+<li><a href="#background">Background</a></li>
+<li><a href="#data-packages">Data packages</a></li>
+<li><a href="#other-related-information">Other related information</a></li>
 </ul>
 </div>
 
-<p><strong>Last updated:</strong> 2016-07-01</p>
-<p><strong>Code version:</strong> 3d475094ce73ae18d71f836b5a810bafc3520424</p>
-<div id="notes" class="section level2">
-<h2>Notes</h2>
+<p><strong>Last updated:</strong> 2016-08-11</p>
+<p><strong>Code version:</strong> 2b254f54776c92ed63e2d11ba5b034715300847c</p>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>This site list some single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in <code>ExpressionSet</code> object and make the data available as an R package on GitHub.</p>
 <ul>
-<li><a href="tutorial.html">Making a project site</a> (<a href="../docs/repo-setup-tutorial-stephens-lab-2015-12-03.pdf">2015-12-12 lab meeting slides</a>)</li>
+<li><p><a href="data-description.html">Data description</a></p></li>
+<li><p><a href="scRNA-expressionSet.html">Codes for making ExpressionSet objects</a></p></li>
 </ul>
 </div>
-<div id="analysis" class="section level2">
-<h2>Analysis</h2>
+<div id="data-packages" class="section level2">
+<h2>Data packages</h2>
 <ul>
-<li><a href="single-cell-pca.html">An exmaple: using PCA to visualize some single-cell data</a></li>
+<li>Human
+<ul>
+<li><a href="https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC">Tung et al., 2016</a>: Human iPSC, counts, UMI</li>
+<li><a href="https://github.com/jhsiao999/singleCellRNASeqHumanLengESC">Leng et al., 2015</a>: Human ESC, reads, cell-cycle sorted</li>
+</ul></li>
+<li>Mouse
+<ul>
+<li><a href="https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC">Buettner et al., 2015</a>: mouse ESC, reads, ERCC spike-in control</li>
+<li><a href="https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen">Jaitin et at., 2014</a>: mouse spleen cells, counts, UMI</li>
+<li><a href="https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung">Treutlein et al., 2014</a>: mouse lung cells, reads</li>
+<li><a href="https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain">Zeisel et al., 2015</a>: Mouse brain, counts + UMI</li>
+</ul></li>
+</ul>
+</div>
+<div id="other-related-information" class="section level2">
+<h2>Other related information</h2>
+<ul>
+<li><a href="summarized-experiment.html">How to make SummarizedExperiment object</a></li>
 </ul>
 </div>
 
