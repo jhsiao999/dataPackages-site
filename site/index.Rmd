@@ -7,7 +7,9 @@ title: "single-cell RNA-seq data R packages"
 **Code version:** `r system("git log -1 --format='%H'", intern = TRUE)`
 
 
-## Background
+-----
+
+### Background
 
 This site list some single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. 
 
@@ -16,7 +18,7 @@ This site list some single-cell RNA-seq data sets downloaded from GEO. We store 
 * [Codes for making ExpressionSet objects](scRNA-expressionSet.html)
 
 
-## Data packages
+### Data packages
 
 * Human
     * [Tung et al., 2016](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC): Human iPSC, counts, UMI
@@ -31,6 +33,6 @@ This site list some single-cell RNA-seq data sets downloaded from GEO. We store 
 
 
 
-## Other related information
+### Other related information
 
 * [How to make SummarizedExperiment object](summarized-experiment.html)
