@@ -23,7 +23,7 @@ This site list mostly single-cell RNA-seq data sets downloaded from GEO. We stor
     * Leng et al., 2015, Human ESC, reads  
       [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC); [Codes](HumanLengESC.html)
     * Patel et al., 2014 (GSE57872), Human Glioblastoma  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma) 
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma.html) 
 
 
 * Mouse

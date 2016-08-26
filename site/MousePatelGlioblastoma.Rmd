@@ -1,0 +1,98 @@
+---
+title: "Making MousePatelGlioblastoma package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+### Patel et al., 2014, mouse brain tumor cells
+
+
+```{r, eval = FALSE}
+# import count matrix, convert to a matrix object
+counts <- data.frame(
+    fread('../data/MousePatelGlioblastoma/GSE57872_GBM_data_matrix.txt'),
+    row.names = 1)
+str(counts, list.len = 3)
+
+# feature info
+gene_info <- data.frame(genes = rownames(counts))
+row_data <- gene_info
+rownames(row_data) <- rownames(counts)
+
+# phenotype info
+# extract column names of the count matrix
+col_temp <- strsplit(colnames(counts), split = "_")
+
+# make phenotype variables
+col_data <- data.frame(
+  celline = c(rep("MGH26",118), rep("MGH28",(212-118)),
+              rep("MGH29",(287-212)), rep("MGH30",(360-287)),
+              rep("MGH31",(430-360)),
+              rep("GBM6",(474-430)), rep("GBM8",532-474),
+              rep("MGH26",3), rep("MGH28",3),
+              "MGH29", "MGH30", rep("MGH31",3)),
+  sample = sapply(col_temp, "[[", 1),
+  assay = sapply(col_temp, function(x) {
+    ifelse(length(x) == 1, "bulk", "single-cell") }),
+  well = c(sapply(col_temp[1:532], "[[", 2), rep("NA",11)),
+  type = c(rep("tumor", 430), 
+           rep("cultured under serum (GSC)", 102), 
+           "cultured under serum (GSC)", "differentiated under serum (DGC)", "tumor",
+           "cultured under serum (GSC)", "differentiated under serum (DGC)", "tumor",
+           "tumor", "tumor",
+           "cultured under serum (GSC)", "differentiated under serum (DGC)", "tumor") )
+
+meta_list <- data.frame(labelDescription = c("cell line",
+                                             "sample name",
+                                             "assay type (single-cell or bulk)",
+                                             "well ID",
+                                             "growth condition"),
+                    row.names = c("celline", "sample", "assay", "well", "type"))
+rownames(col_data) <- colnames(counts)
+stopifnot(all.equal(rownames(col_data), colnames(counts)))
+
+
+# putting all together
+MousePatelGlioblastoma <- new("ExpressionSet",
+                exprs = as.matrix(counts),
+                phenoData = new("AnnotatedDataFrame",
+                                data = col_data,
+                                varMetadata = meta_list),
+                featureData = new("AnnotatedDataFrame",
+                                  data = row_data),
+                experimentData = new("MIAME",
+                                     title = "Patel Mouse Glioblastoma"))
+
+
+save(MousePatelGlioblastoma,
+        file = "../data/all-rda/MousePatelGlioblastoma.rda")
+```
+
+
+
+### Session information
+
+```{r, echo = FALSE}
+sessionInfo()
+```
+
+
