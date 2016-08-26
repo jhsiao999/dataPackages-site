@@ -1,35 +1,50 @@
 ---
-title: "single-cell RNA-seq data R packages"
+title: "R data packages"
 ---
 
 **Last updated:** `r Sys.Date()`
 
 **Code version:** `r system("git log -1 --format='%H'", intern = TRUE)`
 
-
 -----
 
 ### Background
 
-This site list some single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. 
+This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. 
 
 * [Data description](data-description.html) 
 
-* [Codes for making ExpressionSet objects](scRNA-expressionSet.html)
 
-
-### Data packages
+### Single cell RNA-Seq Data packages
 
 * Human
-    * [Tung et al., 2016](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC): Human iPSC, counts, UMI
-    * [Leng et al., 2015](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC): Human ESC, reads, cell-cycle sorted
+    * Tung et al., 2016, Human iPSC, UMI  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC); [Codes](HumanTungiPSC.html) 
+    * Leng et al., 2015, Human ESC, reads  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC); [Codes](HumanLengESC.html)
+    * Patel et al., 2014 (GSE57872), Human Glioblastoma  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma) 
+
 
 * Mouse
-    * [Buettner et al., 2015](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC): mouse ESC, reads, ERCC spike-in control
-    * [Jaitin et at., 2014](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen): mouse spleen cells, counts, UMI
-    * [Treutlein et al., 2014](https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung): mouse lung cells, reads
-    * [Zeisel et al., 2015](https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain): Mouse brain, counts + UMI
+    * Buettner et al., 2015, mouse ESC, reads  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC); [Codes](MouseBuettnerESC.html)
+    * Jaitin et at., 2014, mouse Spleen cells, UMI  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen); [Codes](MouseJaitinSpleen.html)
+    * Treutlein et al., 2014, mouse lung cells, reads  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung); [Codes](MouseTreutleinLung.html)
+    * Scialdone et al., 2015, mouse liver cells  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver); [Codes](MouseScialdoneLiver.html)
+    * Zeisel et al., 2015, mouse brain, UMI  
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain); [Codes](MouseZeiselBrain.html)
 
+
+
+### bulk sample RNA-Seq Data packages
+
+* Mouse
+    * Scialdone et al., 2015, mouse ESC  
+      [GitHub](https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC); [Codes](MouseScialdoneESC.html)
 
 
 

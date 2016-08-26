@@ -1,0 +1,132 @@
+---
+title: "Making MouseTreutleinLung package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+
+### Treutlein et al., 2014, Mouse lung + reads
+
+__GSE52583__
+
+
+```{r, eval = FALSE}
+###<-- import count data sts
+data_list <- list.files(path = "../data/MouseTreutleinLung/",
+                        pattern = "*.fpkm_tracking",
+                        full.name = TRUE)
+
+data_list_gse_label <- sapply(lapply(strsplit(data_list, split = "/"), "[[",5),
+                    function(x) strsplit(x, split = "_", fixed = TRUE)[[1]][1])
+length(data_list_gse_label)
+
+library(data.table)
+library(dplyr)
+counts_list <- lapply(1:length(data_list), function(i) {
+    df <- read.table(data_list[[i]], stringsAsFactors = FALSE)[,c(1,10)]
+    df <- data.table(df, key = "V1")
+    df <- summarise(group_by(df, V1 ), V10 = sum( V10 ) )
+    colnames(df) <- c("gene_id", paste0("sam_",i))
+    return(df)
+})
+
+counts <- Reduce(merge, counts_list)
+
+counts <- data.frame(counts)
+rownames(counts) <- counts[,1]
+counts <- counts[,-1]
+colnames(counts) <- data_list_gse_label
+
+###<--- construct annotation matrix
+library(GEOquery)
+gpl13112 <- getGEO(filename = "../data/MouseTreutleinLung/GSE52583-GPL13112_series_matrix.txt")
+gpl16417 <- getGEO(filename = "../data/MouseTreutleinLung/GSE52583-GPL16417_series_matrix.txt")
+dim(gpl13112)
+dim(gpl16417)
+
+df_col_data <- rbind(
+    pData(gpl13112)[ , which(colnames(pData(gpl13112)) %in%
+                      c("title", "geo_accession", "instrument_model"))],
+    pData(gpl16417)[ , which(colnames(pData(gpl16417))  %in%
+                      c("title", "geo_accession", "instrument_model"))])
+cell_type <- sapply(1:length(df_col_data$title), function(i) {
+    gsub(",", replacement = "",
+         strsplit(as.character(df_col_data$title[i]),
+                  split = " ", fixed = TRUE)[[1]][1]) })
+replicate <- sapply(1:length(df_col_data$title), function(i) {
+    gsub(",", replacement = "",
+         strsplit(as.character(df_col_data$title[i]),
+                  split = " ", fixed = TRUE)[[1]][4]) })
+
+col_data <- data.frame(
+    cell_type = unlist(cell_type),
+    replicate = unlist(replicate),
+    gse = as.character(df_col_data$geo_accession),
+    unique_id = c(1:length(cell_type)),
+    sample_id = paste0(cell_type,".rep", replicate, ".", c(1:length(cell_type))),
+    stringsAsFactors = FALSE)
+rownames(col_data) <- col_data$sample_id
+
+meta_list <- data.frame(labelDescription = c("cell type",
+                                             "biological replicate",
+                                             "GEO accession number",
+                                             "Unique ID",
+                                             "Unique sample ID"),
+                    row.names = colnames(col_data))
+
+# match the order of the count data and the annotation data
+ii_match <- match(colnames(counts), col_data$gse)
+col_data <- col_data[ii_match, ]
+stopifnot(all.equal(colnames(counts), col_data$gse))
+
+# rename columns of the count matrix to unique sample ID
+colnames(counts) <- col_data$sample_id
+
+###<--- make featureData
+row_data <- data.frame(gene_names = rownames(counts),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- rownames(counts)
+
+
+# putting all together
+MouseTreutleinLung <- new("ExpressionSet",
+                    exprs = as.matrix(counts),
+                    phenoData = new("AnnotatedDataFrame",
+                                    data = col_data,
+                                    varMetadata = meta_list),
+                    featureData = new("AnnotatedDataFrame",
+                                      data = row_data),
+                    experimentData = new("MIAME",
+                                         title = "Treutlein mouse lung"))
+
+save(MouseTreutleinLung,
+        file = "../data/all-rda/MouseTreutleinLung.rda")
+```
+
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+

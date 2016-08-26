@@ -1,0 +1,72 @@
+---
+title: "Make MouseScialdoneLiver package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+### Scialdone et al 2015, Liver
+
+```{r, eval = FALSE}
+library(data.table)
+counts_liver <- data.frame(
+    fread("../data/MouseScialdoneLiver/Marioni_lab_1_Jul_2015_gene_counts_table.txt"))
+dim(counts_liver)
+str(counts_liver)
+
+row_data <- data.frame(gene_name = as.character(counts_liver$V1),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- counts_liver$V1
+
+col_data <- data.frame(sample_id = paste0("sampleID",c(1:96)))
+rownames(col_data) <- paste0("sampleID",c(1:96))
+
+meta_list <- data.frame(labelDescription = c("sampleID"),
+                    row.names = colnames(col_data))
+
+counts_liver <- counts_liver[,-1]
+rownames(counts_liver) <- row_data$gene_name
+colnames(counts_liver) <- col_data$sample_id
+
+# dim(counts_liver)
+# dim(col_data); dim(row_data)
+
+MouseScialdoneLiver <- new("ExpressionSet",
+                exprs = as.matrix(counts_liver),
+                phenoData = new("AnnotatedDataFrame",
+                                data = col_data),
+                featureData = new("AnnotatedDataFrame",
+                                  data = row_data),
+                experimentData = new("MIAME",
+                                     title = "Mouse Sciladone liver"))
+
+save(MouseScialdoneLiver,
+        file = "../data/all-rda/MouseScialdoneLiver.rda")
+```
+
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+
+

@@ -9,9 +9,11 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Joyce Hsiao" />
 
+<meta name="date" content="2016-08-26" />
 
-<title>R data packages</title>
+<title>Making MouseJaitinSpleen package</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -102,6 +104,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="floating-toc.css" type="text/css" />
 
 </head>
 
@@ -171,71 +174,77 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R data packages</h1>
+<h1 class="title toc-ignore">Making MouseJaitinSpleen package</h1>
+<h4 class="author"><em>Joyce Hsiao</em></h4>
+<h4 class="date"><em>2016-08-26</em></h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#background">Background</a></li>
-<li><a href="#single-cell-rna-seq-data-packages">Single cell RNA-Seq Data packages</a></li>
-<li><a href="#bulk-sample-rna-seq-data-packages">bulk sample RNA-Seq Data packages</a></li>
-<li><a href="#other-related-information">Other related information</a></li>
+<li><a href="#load-packages">Load packages</a></li>
+<li><a href="#jaitin-et-al.-2014-mouse-spleen-cells-counts-umi">Jaitin et al., 2014, mouse spleen cells, counts + UMI</a></li>
+<li><a href="#session-information">Session information</a></li>
 </ul>
 </div>
 
-<p><strong>Last updated:</strong> 2016-08-26</p>
-<p><strong>Code version:</strong> 8ad3e9949e5d4d2c538dac9447eaba9fd9375863</p>
-<hr />
-<div id="background" class="section level3">
-<h3>Background</h3>
-<p>This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in <code>ExpressionSet</code> object and make the data available as an R package on GitHub.</p>
-<ul>
-<li><a href="data-description.html">Data description</a></li>
-</ul>
+<div id="load-packages" class="section level3">
+<h3>Load packages</h3>
+<pre class="r"><code>library(data.table)
+library(Biobase)</code></pre>
 </div>
-<div id="single-cell-rna-seq-data-packages" class="section level3">
-<h3>Single cell RNA-Seq Data packages</h3>
-<ul>
-<li>Human
-<ul>
-<li>Tung et al., 2016, Human iPSC, UMI<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC">GitHub</a>; <a href="HumanTungiPSC.html">Codes</a></li>
-<li>Leng et al., 2015, Human ESC, reads<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqHumanLengESC">GitHub</a>; <a href="HumanLengESC.html">Codes</a></li>
-<li>Patel et al., 2014 (GSE57872), Human Glioblastoma<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma">GitHub</a>; <a href="HumanPatelGlioblastoma">Codes</a></li>
-</ul></li>
-<li>Mouse
-<ul>
-<li>Buettner et al., 2015, mouse ESC, reads<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC">GitHub</a>; <a href="MouseBuettnerESC.html">Codes</a></li>
-<li>Jaitin et at., 2014, mouse Spleen cells, UMI<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen">GitHub</a>; <a href="MouseJaitinSpleen.html">Codes</a></li>
-<li>Treutlein et al., 2014, mouse lung cells, reads<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung">GitHub</a>; <a href="MouseTreutleinLung.html">Codes</a></li>
-<li>Scialdone et al., 2015, mouse liver cells<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver">GitHub</a>; <a href="MouseScialdoneLiver.html">Codes</a></li>
-<li>Zeisel et al., 2015, mouse brain, UMI<br />
- <a href="https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain">GitHub</a>; <a href="MouseZeiselBrain.html">Codes</a></li>
-</ul></li>
-</ul>
+<div id="jaitin-et-al.-2014-mouse-spleen-cells-counts-umi" class="section level3">
+<h3>Jaitin et al., 2014, mouse spleen cells, counts + UMI</h3>
+<pre class="r"><code># import count matrix, convert to a matrix object
+counts &lt;- as.matrix(
+    read.table(&quot;../data/MouseJaitinSpleen/GSE54006_umitab.txt&quot;,
+               header = TRUE, stringsAsFactors = FALSE,
+               sep = &quot;\t&quot;) )
+gene_names &lt;- counts[ ,1]
+sample_names &lt;- colnames(counts)[-1]
+counts &lt;- counts[ ,-1]
+counts &lt;- matrix(as.numeric(counts), byrow = FALSE,
+                 nrow = length(gene_names))
+rownames(counts) &lt;- gene_names
+
+# feature information
+row_data &lt;- data.frame(gene_names = gene_names)
+
+# import annotation matrix
+col_data &lt;- read.table(&quot;../data/MouseJaitinSpleen/GSE54006_experimental_design.txt&quot;,
+               header = TRUE,
+               stringsAsFactors = FALSE,
+               sep = &quot;\t&quot;)
+colnames(col_data) &lt;- unlist(col_data[6,])
+col_data &lt;- col_data[ - c(1:6), ]
+head(col_data)
+
+
+# match annotation matrix with the count matrix
+temp_colnames &lt;- do.call(c,
+        lapply(sample_names, function(x) strsplit(x, &quot;X&quot;)[[1]][[2]]) )
+col_data &lt;- col_data[which(col_data$Column_name_in_processed_data_file %in%
+                         temp_colnames), ]
+col_data &lt;- data.frame(col_data)
+
+meta_list &lt;- data.frame(row.names = colnames(col_data))
+
+# putting all together
+MouseJaitinSpleen &lt;- new(&quot;ExpressionSet&quot;,
+                exprs = as.matrix(counts),
+                phenoData = new(&quot;AnnotatedDataFrame&quot;,
+                                data = col_data,
+                                varMetadata = meta_list),
+                featureData = new(&quot;AnnotatedDataFrame&quot;,
+                                  data = row_data),
+                experimentData = new(&quot;MIAME&quot;,
+                                     title = &quot;Jaitin Mouse Spleen&quot;))
+
+save(MouseJaitinSpleen,
+        file = &quot;../data/all-rds/MouseJaitinSpleen.rda&quot;)</code></pre>
 </div>
-<div id="bulk-sample-rna-seq-data-packages" class="section level3">
-<h3>bulk sample RNA-Seq Data packages</h3>
-<ul>
-<li>Mouse
-<ul>
-<li>Scialdone et al., 2015, mouse ESC<br />
- <a href="https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC">GitHub</a>; <a href="MouseScialdoneESC.html">Codes</a></li>
-</ul></li>
-</ul>
-</div>
-<div id="other-related-information" class="section level3">
-<h3>Other related information</h3>
-<ul>
-<li><a href="summarized-experiment.html">How to make SummarizedExperiment object</a></li>
-</ul>
+<div id="session-information" class="section level3">
+<h3>Session information</h3>
 </div>
 
 

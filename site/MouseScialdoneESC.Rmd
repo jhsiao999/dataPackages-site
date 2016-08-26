@@ -1,0 +1,82 @@
+---
+title: "Make bulkRNASeqMouseScialdoneESC package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+
+### Scialdone et al 2015, ESC
+
+
+```{r, eval = F}
+library(data.table)
+library(Biobase)
+
+G1_data <- read.table("../data/MouseScialdoneESC/G1_htseq_count.txt");
+G2M_data <- read.table("../data/MouseScialdoneESC/G2M_htseq_count.txt");
+S_data <- read.table("../data/MouseScialdoneESC/S_htseq_count.txt");
+colnames(G1_data) <- c("gene_names", "G1")
+colnames(G2M_data) <- c("gene_names", "G2M")
+colnames(S_data) <- c("gene_names", "S")
+
+dim(G1_data)
+dim(G2M_data)
+dim(S_data)
+
+counts_ESC <- merge(G1_data, G2M_data, by = "gene_names")
+counts_ESC <- merge(counts_ESC, S_data, by = "gene_names")
+head(counts_ESC)
+
+row_data <- data.frame(gene_name = as.character(counts_ESC$gene_names),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- counts_ESC$gene_names
+
+col_data <- data.frame(cycle_phase = colnames(counts_ESC)[-1])
+rownames(col_data) <- col_data$cycle_phase
+
+meta_list <- data.frame(labelDescription = c("cycle phase"),
+                    row.names = colnames(col_data))
+
+counts_ESC <- counts_ESC[,-1]
+
+MouseScialdoneESC <- new("ExpressionSet",
+                exprs = as.matrix(counts_ESC),
+                phenoData = new("AnnotatedDataFrame",
+                                data = col_data),
+                featureData = new("AnnotatedDataFrame",
+                                  data = row_data),
+                experimentData = new("MIAME",
+                                     title = "Mouse Sciladone ESC"))
+
+save(MouseScialdoneESC,
+        file = "../data/all-rda/MouseScialdoneESC.rda")
+```
+
+
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+

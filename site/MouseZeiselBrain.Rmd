@@ -1,0 +1,134 @@
+---
+title: "Making MouseZeiselBrain package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+### Zeisel et al., 2015, Mouse brain + UMI
+
+http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE60361
+
+> We have applied a recently developed, highly accurate and sensitive single-cell RNA-seq method (STRT/C1) to perform a molecular census of two regions of the mouse cerebral cortex: the somatosensory cortex and hippocampus CA1. We isolated cells fresh from somatosensory cortex (S1) and hippocampus CA1 area of juvenile (P22 - P32) CD1 mice, 33 males and 34 females. Cells were collected without selection, except that 116 cells were obtained by FACS from 5HT3a-BACEGFP transgenic mice. A total of 76 Fluidigm C1 runs were performed, each attempting 96 cell captures and resulting in 3005 high-quality single-cell cDNAs, containing Unique Molecular Identifiers allowing counting of individual mRNA molecules, even after PCR amplification.
+
+
+```{r, eval = F}
+# import annotation matrix, conver to a DatFrame object
+df_col_data <- as.matrix(
+    fread("../data/MouseZeiselBrain/expression_mRNA_17-Aug-2014.txt") )[1:10, ]
+
+col_data <- data.frame(
+    tissue = colnames(df_col_data)[-(1:2)],
+    group_no = round(as.numeric(df_col_data[1, -(1:2)])),
+    total_mrna_vol = as.numeric(df_col_data[2, -(1:2)]),
+    well_id = round(as.numeric(df_col_data[3, -(1:2)])),
+    sex = factor(as.numeric(df_col_data[4, -(1:2)]),
+                 levels = c(-1, 1, 0),
+                 labels = c("male", "female", "transgenic")),
+    age = as.numeric(df_col_data[5, -(1:2)]),
+    diameter = as.numeric(df_col_data[6, -(1:2)]),
+    cell_id = df_col_data[7, -(1:2)],
+    level1_class = df_col_data[8, -(1:2)],
+    level2_class = df_col_data[9, -(1:2)],
+    stringsAsFactors = FALSE)
+rownames(col_data) <- col_data$cell_id
+
+
+
+# import data
+df <- as.matrix(
+    read.table("../data/MouseZeiselBrain/GSE60361_C1-3005-Expression.txt",
+    header = TRUE, quote = "", sep = "\t",
+    stringsAsFactors = FALSE))
+
+# save counts to a matrix object
+counts <- matrix(as.numeric(df[ ,-1]),
+                    nrow = NROW(df),
+                    byrow = FALSE)
+colnames(counts) <- colnames(df)[-1]
+rownames(counts) <- df[,1]
+
+
+# two genes are duplicates...
+rownames(counts)[which(duplicated(rownames(counts)))]
+
+# check the difference between the duplicates
+table((counts[rownames(counts) == "Mar-02", ])[1,])
+table((counts[rownames(counts) == "Mar-02", ])[2,])
+
+# check the difference between the duplicates
+table((counts[rownames(counts) == "Mar-01", ])[1,])
+table((counts[rownames(counts) == "Mar-01", ])[2,])
+
+# removing these two genes as I am not sure the duplicates
+# are drastically different in gene abundance levels
+counts <- counts[which(rownames(counts) != "Mar-01" & rownames(counts) != "Mar-02"), ]
+
+# remote X in the beginning of column names
+counts_colnames <- gsub("X", replacement = "", x = colnames(counts))
+colnames(counts) <- counts_colnames
+
+# feature data
+row_data <- data.frame(gene_name = as.character(rownames(counts)),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- rownames(counts)
+
+# match count matrix with annotation data.frame
+match_cell_id <- match(col_data$cell_id, colnames(counts))
+counts <- counts[ ,match_cell_id]
+
+meta_list <- data.frame(
+    labelDescription = c("Tissue type",
+                         "Group nubmer",
+                         "Total mRNA volume",
+                         "Well ID",
+                         "Sex",
+                         "Age (in days)",
+                         "Cell diameter",
+                         "Cell unique ID",
+                         "Level 1 class",
+                         "Level 2 class"),
+    row.names = colnames(col_data) )
+
+
+# putting all together
+MouseZeiselBrain <- new("ExpressionSet",
+                        exprs = as.matrix(counts),
+                        phenoData = new("AnnotatedDataFrame",
+                                        data = col_data,
+                                        varMetadata = meta_list),
+                        featureData = new("AnnotatedDataFrame",
+                                          data = row_data),
+                        experimentData = new("MIAME",
+                                             title = "Zeisel Mouse Brain"))
+
+
+save(MouseZeiselBrain,
+     file = "../data/all-rda/MouseZeiselBrain.rda")
+```
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+

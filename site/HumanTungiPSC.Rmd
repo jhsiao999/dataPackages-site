@@ -1,0 +1,78 @@
+---
+title: "Making HumanTungiPSC package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+### Tung et al., 2016, Human iPSC + UMI
+
+Import molecule counts after QC-filtering.
+
+```{r, eval = FALSE}
+# import count matrix, convert to a matrix object
+counts <- as.matrix(
+    read.table("../data/HumanTungiPSC/molecules-filter.txt",
+               header = TRUE, stringsAsFactors = FALSE) )
+
+# import annotation matrix, conver to a DatFrame object
+col_data <- data.frame(
+    read.table("../data/HumanTungiPSC/annotation-filter.txt",
+               header = TRUE, stringsAsFactors = FALSE) )
+rownames(col_data) <- colnames(counts)
+meta_list <- data.frame(labelDescription = c("Individual cell line",
+                                             "C1 replicate",
+                                             "well ID",
+                                             "processing batch",
+                                             "unique sample ID"),
+                            row.names = colnames(col_data) )
+
+# feature data
+row_data <- data.frame(gene_name = as.character(rownames(counts)),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- rownames(counts)
+
+# putting all together
+HumanTungiPSC <- new("ExpressionSet",
+                    exprs = as.matrix(counts),
+                    phenoData = new("AnnotatedDataFrame",
+                                    data = col_data,
+                                    varMetadata = meta_list),
+                    featureData = new("AnnotatedDataFrame",
+                                      data = row_data),
+                    experimentData = new("MIAME",
+                                         title = "Tung Human iPSC"))
+
+
+save(HumanTungiPSC,
+     file = "../data/all-rda/HumanTungiPSC.rda")
+```
+
+
+
+
+
+
+### Session information
+
+```{r, echo = FALSE}
+sessionInfo()
+```

@@ -1,0 +1,84 @@
+---
+title: "Making MouseBuettnerESC package"
+author: "Joyce Hsiao"
+date: "2016-08-26"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+### Buettner et al., 2015, mouse ESC, reads + ERCC
+
+
+```{r, eval = FALSE}
+# import count matrix, convert to a matrix object
+G1_cells <- data.frame(
+    fread('../data/MouseBuettnerESC/G1_singlecells_counts.txt'),
+    row.names = 1)
+G2M_cells <- data.frame(
+    fread('../data/MouseBuettnerESC/G2M_singlecells_counts.txt'),
+    row.names = 1)
+S_cells <- data.frame(
+    fread('../data/MouseBuettnerESC/S_singlecells_counts.txt'),
+    row.names = 1)
+stopifnot(all.equal(rownames(G1_cells), rownames(G2M_cells)))
+
+
+# make a count matrix
+counts <- cbind(G1_cells[, -c(1:3)],
+                G2M_cells[, -c(1:3)],
+                S_cells[, -c(1:3)] )
+
+# feature info
+gene_info <- data.frame(G1_cells[ ,1:3])
+row_data <- gene_info
+
+# phenotype info
+meta_list <- data.frame(labelDescription = c("cell-cycle phase"),
+                    row.names = c("cell_cycle"))
+col_data <- data.frame(cell_cycle = as.character(
+    rep(c("G1", "G2M", "S"), each = 96)) )
+rownames(col_data) <- colnames(counts)
+stopifnot(all.equal(rownames(col_data), colnames(counts)))
+
+
+# putting all together
+MouseBuettnerESC <- new("ExpressionSet",
+                exprs = as.matrix(counts),
+                phenoData = new("AnnotatedDataFrame",
+                                data = col_data,
+                                varMetadata = meta_list),
+                featureData = new("AnnotatedDataFrame",
+                                  data = row_data),
+                experimentData = new("MIAME",
+                                     title = "Buttner Mouse ESC"))
+
+
+save(MouseBuettnerESC,
+        file = "../data/all-rds/MouseBuettnerESC.rda")
+```
+
+
+
+### Session information
+
+```{r, echo = FALSE}
+sessionInfo()
+```
+
