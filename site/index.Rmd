@@ -30,6 +30,9 @@ This site list mostly single-cell RNA-seq data sets downloaded from GEO. We stor
 * Mouse
     * Buettner et al., 2015, mouse ESC, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC); [Codes](MouseBuettnerESC.html)  
       `devtools::install_github("jhsiao999/singleCellRNASeqMouseBuettnerESC")`  
+    
+    * Deng et al., 2014, mouse ESC [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseDengESC)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqMouseDengESC")`  
       
     * Jaitin et al., 2014, mouse Spleen cells, UMI [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen); [Codes](MouseJaitinSpleen.html)  
       `devtools::install_github("jhsiao999/singleCellRNASeqMouseJaitinSpleen")`  
