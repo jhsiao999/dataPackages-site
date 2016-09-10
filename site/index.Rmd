@@ -18,33 +18,39 @@ This site list mostly single-cell RNA-seq data sets downloaded from GEO. We stor
 ### Single cell RNA-Seq Data packages
 
 * Human
-    * Tung et al., 2016, Human iPSC, UMI  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC); [Codes](HumanTungiPSC.html) 
-    * Leng et al., 2015, Human ESC, reads  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC); [Codes](HumanLengESC.html)
-    * Patel et al., 2014 (GSE57872), Human Glioblastoma  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma.html) 
-
-
+    * Tung et al., 2016, Human iPSC, UMI [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC); [Codes](HumanTungiPSC.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqHumanTungiPSC")`  
+      
+    * Leng et al., 2015, Human ESC, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC); [Codes](HumanLengESC.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqHumanLengESC")`  
+      
+    * Patel et al., 2014 (GSE57872), Human Glioblastoma [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqHumanPatelGlioblastoma")`  
+      
 * Mouse
-    * Buettner et al., 2015, mouse ESC, reads  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC); [Codes](MouseBuettnerESC.html)
-    * Jaitin et at., 2014, mouse Spleen cells, UMI  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen); [Codes](MouseJaitinSpleen.html)
-    * Treutlein et al., 2014, mouse lung cells, reads  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung); [Codes](MouseTreutleinLung.html)
-    * Scialdone et al., 2015, mouse liver cells  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver); [Codes](MouseScialdoneLiver.html)
-    * Zeisel et al., 2015, mouse brain, UMI  
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain); [Codes](MouseZeiselBrain.html)
+    * Buettner et al., 2015, mouse ESC, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC); [Codes](MouseBuettnerESC.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqMouseBuettnerESC")`  
+      
+    * Jaitin et al., 2014, mouse Spleen cells, UMI [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen); [Codes](MouseJaitinSpleen.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqMouseJaitinSpleen")`  
+      
+    * Treutlein et al., 2014, mouse lung cells, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung); [Codes](MouseTreutleinLung.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqMouseTreutleinLung")`  
+    
+    * Scialdone et al., 2015, mouse liver cells [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver); [Codes](MouseScialdoneLiver.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqMouseScialdoneLiver")`  
+      
+    * Zeisel et al., 2015, mouse brain, UMI
+      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain); [Codes](MouseZeiselBrain.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqMouseZeiselBrain")`  
 
 
 
 ### bulk sample RNA-Seq Data packages
 
 * Mouse
-    * Scialdone et al., 2015, mouse ESC  
-      [GitHub](https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC); [Codes](MouseScialdoneESC.html)
+    * Scialdone et al., 2015, mouse ESC [GitHub](https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC); [Codes](MouseScialdoneESC.html)  
+      `devtools::install_github("jhsiao999/bulkRNASeqMouseScialdoneESC")`  
 
 
 
