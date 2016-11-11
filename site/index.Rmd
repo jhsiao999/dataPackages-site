@@ -27,6 +27,10 @@ This site list mostly single-cell RNA-seq data sets downloaded from GEO. We stor
     * Patel et al., 2014 (GSE57872), Human Glioblastoma [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma.html)  
       `devtools::install_github("jhsiao999/singleCellRNASeqHumanPatelGlioblastoma")`  
       
+    * Paul et al., 2015 (GSE72850), Human Myeloid
+    [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPaulMyeloid); [Codes](HumanPaulMyeloid.html)  
+      `devtools::install_github("jhsiao999/singleCellRNASeqHumanPaulMyeloid")`  
+      
 * Mouse
     * Buettner et al., 2015, mouse ESC, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC); [Codes](MouseBuettnerESC.html)  
       `devtools::install_github("jhsiao999/singleCellRNASeqMouseBuettnerESC")`  

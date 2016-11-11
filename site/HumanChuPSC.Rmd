@@ -1,0 +1,80 @@
+---
+title: "Making HumanChuPSC package"
+author: "Joyce Hsiao"
+date: "2016-11-10"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+```{r, eval = F}
+# import read count matrix
+leng_data <- read.csv("../data/HumanLengESC/GSE64016_H1andFUCCI_normalized_EC.csv")
+rownames(leng_data) <- leng_data[ ,1]
+counts <- as.matrix(leng_data[,-1])
+dim(counts)
+
+
+# construct annotation matrix
+col_data <- colnames(counts)
+col_data <- data.frame(
+    cell_state = sapply(col_data,
+                       function(xx) strsplit(xx, "_")[[1]][1]),
+    replicate = sapply(col_data,
+                   function(xx) strsplit(xx, "_")[[1]][2]),
+    cell_id = sapply(col_data,
+                     function(xx) strsplit(xx, ".", fixed = TRUE)[[1]][2]),
+    sample_id = col_data)
+rownames(col_data) <- colnames(counts)
+
+meta_list <- data.frame(labelDescription = c("cell-cycle state",
+                                             "C1 replicate",
+                                             "Unique cell ID for each replicate",
+                                             "Unique cell ID"),
+                    row.names = colnames(col_data))
+
+# make featureData
+row_data <- data.frame(gene_names = rownames(counts),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- rownames(counts)
+
+
+# putting all together
+HumanLengESC <- new("ExpressionSet",
+                    exprs = as.matrix(counts),
+                    phenoData = new("AnnotatedDataFrame",
+                                    data = col_data,
+                                    varMetadata = meta_list),
+                    featureData = new("AnnotatedDataFrame",
+                                      data = row_data),
+                    experimentData = new("MIAME",
+                                         title = "Buttner Mouse ESC"))
+
+save(HumanLengESC,
+        file = "../data/all-rda/HumanLengESC.rda")
+```
+
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+

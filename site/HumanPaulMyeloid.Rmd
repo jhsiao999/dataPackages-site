@@ -1,0 +1,85 @@
+---
+title: "Making HumanPaulMyeloid package"
+author: "Joyce Hsiao"
+date: "2016-11-11"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+```{r, eval = F}
+# import read count matrix
+expr_data <- read.table("../data/HumanPaulMyeloid/GSE72857_umitab.txt",
+                        header = TRUE, sep = "\t", fill = TRUE,
+                        stringsAsFactors = FALSE)
+counts <- as.matrix(expr_data)
+dim(counts)
+
+
+# import annotation matrix
+col_data <- read.table("../data/HumanPaulMyeloid/GSE72857_experimental_design_copy.txt",
+                        header = TRUE, sep = "\t", fill = TRUE,
+                        stringsAsFactors = FALSE)
+rownames(col_data) <- colnames(counts)
+  
+meta_list <- data.frame(
+  labelDescription = c("well identifier",
+                       "Illumina sequencing batch ID",
+                       "amplification batch ID (of 192 single cells)",
+                       "well coordinates",
+                       "subject mouse ID", 
+                       "sorting batch ID (384 wells plates)", 
+                       "Information of the experiment, sorting scheme, and genetic background of mouse",
+                       "Pool barcode (may overlap between different sorting batches",
+                       "Single cell barcode",
+                       "random molecular tag sequence",
+                       "Number of cells sorted to well (0/1)",
+                       "CD 34 protein levels (if index-sorted)",
+                       "FcgR3 protein levels (if index-sorted)"),
+                    row.names = colnames(col_data))
+
+# make featureData
+row_data <- data.frame(gene_names = rownames(counts),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- rownames(counts)
+
+
+# putting all together
+HumanPaulMyeloid <- new("ExpressionSet",
+                    exprs = as.matrix(counts),
+                    phenoData = new("AnnotatedDataFrame",
+                                    data = col_data,
+                                    varMetadata = meta_list),
+                    featureData = new("AnnotatedDataFrame",
+                                      data = row_data),
+                    experimentData = new("MIAME",
+                                         title = "Amit Paul Myeloid"))
+
+save(HumanPaulMyeloid,
+        file = "../data/all-rda/HumanPaulMyeloid.rda")
+```
+
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+
