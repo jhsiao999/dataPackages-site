@@ -182,7 +182,8 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#load-packages">Load packages</a></li>
-<li><a href="#buettner-et-al.-2015-differentation-tcells">Buettner et al., 2015, differentation TCells</a></li>
+<li><a href="#data-description-from-buettner-et-al.-2015">Data description from Buettner et al. 2015</a></li>
+<li><a href="#load-data">Load data</a></li>
 <li><a href="#session-information">Session information</a></li>
 </ul>
 </div>
@@ -193,8 +194,26 @@ $(document).ready(function () {
 library(Biobase)
 library(xlsx)</code></pre>
 </div>
-<div id="buettner-et-al.-2015-differentation-tcells" class="section level3">
-<h3>Buettner et al., 2015, differentation TCells</h3>
+<div id="data-description-from-buettner-et-al.-2015" class="section level3">
+<h3>Data description from Buettner et al. 2015</h3>
+<p>Buettner et al., 2015, differentation TCells</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>[…] Duplets and cells with low yield or poor quality cDNA were removed, yielding 81 cells for analysis. After normalization and estimation of technical noise using ERCC spike-ins (see RNA-seq normalization and estimation of technical noise), we retained a set of 7,073 genes for analysis with variation above the technical background level (FDR &lt;0.1; Supplementary Data 2).</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>[…] Raw read counts were normalized using the approach proposed in DESeq47, deriving size factors for each cell from the ERCC spike-ins. Estimates of the technical variability were also derived using the ERCC spike-ins, adapting the approach in Brennecke et al.20 (Supplementary Fig. 1a).</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</div>
+<div id="load-data" class="section level3">
+<h3>Load data</h3>
 <pre class="r"><code># import count matrix, convert to a matrix object
 T_cells &lt;- read.csv(&#39;../data/HumanBuettnerTCell/nbt.3102-S7.csv&#39;, 
                      header = TRUE, fill = TRUE,

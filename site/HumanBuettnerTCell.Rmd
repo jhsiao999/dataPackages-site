@@ -24,8 +24,16 @@ library(xlsx)
 ```
 
 
-### Buettner et al., 2015, differentation TCells
+### Data description from Buettner et al. 2015
 
+Buettner et al., 2015, differentation TCells
+
+>>> [...] Duplets and cells with low yield or poor quality cDNA were removed, yielding 81 cells for analysis. After normalization and estimation of technical noise using ERCC spike-ins (see RNA-seq normalization and estimation of technical noise), we retained a set of 7,073 genes for analysis with variation above the technical background level (FDR <0.1; Supplementary Data 2).
+
+>>> [...] Raw read counts were normalized using the approach proposed in DESeq47, deriving size factors for each cell from the ERCC spike-ins. Estimates of the technical variability were also derived using the ERCC spike-ins, adapting the approach in Brennecke et al.20 (Supplementary Fig. 1a).
+
+
+### Load data
 
 ```{r, eval = FALSE}
 # import count matrix, convert to a matrix object
