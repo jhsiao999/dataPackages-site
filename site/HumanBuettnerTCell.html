@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Joyce Hsiao" />
+
+<meta name="date" content="2016-12-08" />
+
+<title>Making MouseBuettnerTCell package</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">
+
+/* padding for bootstrap navbar */
+body {
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h2 {
+  padding-top: 55px;
+  margin-top: -55px;
+}
+.section h3 {
+  padding-top: 55px;
+  margin-top: -55px;
+}
+
+
+
+/* don't use link color in navbar */
+.dropdown-menu>li>a {
+  color: black;
+}
+
+/* some padding for disqus */
+#disqus_thread {
+  margin-top: 45px;
+}
+
+</style>
+
+<link rel="stylesheet" href="libs/font-awesome-4.1.0/css/font-awesome.min.css"/>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="floating-toc.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">dataPackages</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="license.html">License</a></li>
+        <li><a href="https://github.com/jhsiao999/dataPackages-site">GitHub</a></li>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Making MouseBuettnerTCell package</h1>
+<h4 class="author"><em>Joyce Hsiao</em></h4>
+<h4 class="date"><em>2016-12-08</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#load-packages">Load packages</a></li>
+<li><a href="#buettner-et-al.-2015-differentation-tcells">Buettner et al., 2015, differentation TCells</a></li>
+<li><a href="#session-information">Session information</a></li>
+</ul>
+</div>
+
+<div id="load-packages" class="section level3">
+<h3>Load packages</h3>
+<pre class="r"><code>library(data.table)
+library(Biobase)
+library(xlsx)</code></pre>
+</div>
+<div id="buettner-et-al.-2015-differentation-tcells" class="section level3">
+<h3>Buettner et al., 2015, differentation TCells</h3>
+<pre class="r"><code># import count matrix, convert to a matrix object
+T_cells &lt;- read.csv(&#39;../data/HumanBuettnerTCell/nbt.3102-S7.csv&#39;, 
+                     header = TRUE, fill = TRUE,
+                     stringsAsFactors = FALSE)
+T_cells &lt;- T_cells[,-1]
+T_cells &lt;- t(T_cells)
+T_cells &lt;- T_cells[1:7073, ]
+
+# make a count matrix
+counts &lt;- T_cells
+colnames(counts) &lt;- rep(1:NCOL(counts))
+
+# feature info
+gene_info &lt;- data.frame(gene_names = rownames(counts))
+row_data &lt;- gene_info
+rownames(row_data) &lt;- gene_info$gene_names
+
+# phenotype info
+meta_list &lt;- data.frame(labelDescription = c(&quot;cellID&quot;),
+                    row.names = c(&quot;cellID&quot;))
+col_data &lt;- data.frame(cellID = as.character(seq(1:NCOL(counts))))
+
+rownames(col_data) &lt;- colnames(counts)
+stopifnot(all.equal(rownames(col_data), colnames(counts)))
+
+# putting all together
+HumanBuettnerTCell &lt;- new(&quot;ExpressionSet&quot;,
+                exprs = as.matrix(counts),
+                phenoData = new(&quot;AnnotatedDataFrame&quot;,
+                                data = col_data,
+                                varMetadata = meta_list),
+                featureData = new(&quot;AnnotatedDataFrame&quot;,
+                                  data = row_data),
+                experimentData = new(&quot;MIAME&quot;,
+                                     title = &quot;Buttner Human T cells&quot;))
+
+
+save(HumanBuettnerTCell,
+        file = &quot;../data/all-rda/HumanBuettnerTCell.rda&quot;)</code></pre>
+</div>
+<div id="session-information" class="section level3">
+<h3>Session information</h3>
+</div>
+
+
+<!-- some extra javascript for older browsers -->
+<script type="text/javascript" src="libs/polyfill.js"></script>
+
+<script>
+
+// manage active state of menu based on current page
+$(document).ready(function () {
+
+    // active menu
+    href = window.location.pathname
+    href = href.substr(href.lastIndexOf('/') + 1)
+    $('a[href="' + href + '"]').parent().addClass('active');
+
+    // manage active menu header
+    if (href.startsWith('authoring_'))
+      $('a[href="' + 'authoring' + '"]').parent().addClass('active');
+    else if (href.endsWith('_format.html'))
+      $('a[href="' + 'formats' + '"]').parent().addClass('active');
+    else if (href.startsWith('developer_'))
+      $('a[href="' + 'developer' + '"]').parent().addClass('active');
+
+});
+
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

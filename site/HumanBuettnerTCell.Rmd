@@ -1,0 +1,79 @@
+---
+title: "Making MouseBuettnerTCell package"
+author: "Joyce Hsiao"
+date: "2016-12-08"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+library(xlsx)
+```
+
+
+### Buettner et al., 2015, differentation TCells
+
+
+```{r, eval = FALSE}
+# import count matrix, convert to a matrix object
+T_cells <- read.csv('../data/HumanBuettnerTCell/nbt.3102-S7.csv', 
+                     header = TRUE, fill = TRUE,
+                     stringsAsFactors = FALSE)
+T_cells <- T_cells[,-1]
+T_cells <- t(T_cells)
+T_cells <- T_cells[1:7073, ]
+
+# make a count matrix
+counts <- T_cells
+colnames(counts) <- rep(1:NCOL(counts))
+
+# feature info
+gene_info <- data.frame(gene_names = rownames(counts))
+row_data <- gene_info
+rownames(row_data) <- gene_info$gene_names
+
+# phenotype info
+meta_list <- data.frame(labelDescription = c("cellID"),
+                    row.names = c("cellID"))
+col_data <- data.frame(cellID = as.character(seq(1:NCOL(counts))))
+
+rownames(col_data) <- colnames(counts)
+stopifnot(all.equal(rownames(col_data), colnames(counts)))
+
+# putting all together
+HumanBuettnerTCell <- new("ExpressionSet",
+                exprs = as.matrix(counts),
+                phenoData = new("AnnotatedDataFrame",
+                                data = col_data,
+                                varMetadata = meta_list),
+                featureData = new("AnnotatedDataFrame",
+                                  data = row_data),
+                experimentData = new("MIAME",
+                                     title = "Buttner Human T cells"))
+
+
+save(HumanBuettnerTCell,
+        file = "../data/all-rda/HumanBuettnerTCell.rda")
+```
+
+
+
+### Session information
+
+```{r, echo = FALSE}
+sessionInfo()
+```
+
