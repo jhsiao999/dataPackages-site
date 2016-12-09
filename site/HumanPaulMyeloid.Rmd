@@ -14,18 +14,29 @@ library(knitr)
 opts_chunk$set(eval = FALSE, echo = TRUE)
 ```
 
+### Setting up
 
-### Load packages
+Load packages
 
 ```{r}
 library(data.table)
 library(Biobase)
 ```
 
+Make directories.
+
+```{r}
+data_dir <- "../data/HumanPaulMyeloid"
+```
+
+### Making eSet
+
+Format Raw data.
+
 
 ```{r, eval = F}
 # import read count matrix
-expr_data <- read.table("../data/HumanPaulMyeloid/GSE72857_umitab.txt",
+expr_data <- read.table(file.path(data_dir, "GSE72857_umitab.txt"),
                         header = TRUE, sep = "\t", fill = TRUE,
                         stringsAsFactors = FALSE)
 counts <- as.matrix(expr_data)
@@ -33,7 +44,7 @@ dim(counts)
 
 
 # import annotation matrix
-col_data <- read.table("../data/HumanPaulMyeloid/GSE72857_experimental_design_copy.txt",
+col_data <- read.table(file.path(data_dir, "GSE72857_experimental_design_copy.txt"),
                         header = TRUE, sep = "\t", fill = TRUE,
                         stringsAsFactors = FALSE)
 rownames(col_data) <- colnames(counts)
@@ -70,11 +81,54 @@ HumanPaulMyeloid <- new("ExpressionSet",
                                       data = row_data),
                     experimentData = new("MIAME",
                                          title = "Amit Paul Myeloid"))
-
-save(HumanPaulMyeloid,
-        file = "../data/all-rda/HumanPaulMyeloid.rda")
 ```
 
+Format the version of the data that was processed in Wishbone.
+
+```{r, eval = FALSE}
+expr_normed <- read.csv(file.path(data_dir,"wishbone_mouse_marrow_scrnaseq.csv"),
+                   header = TRUE, 
+                   fill = TRUE,
+                   stringsAsFactors = FALSE)
+rownames(expr_normed) <- expr_normed[,1]
+expr_normed <- expr_normed[,-1]
+expr_normed <- t(expr_normed)
+str(expr_normed)
+
+# TBD: reformat the gene names
+# currently it's not in standard Ensembl gene format
+
+# Subset cells used in the normalize data.
+is_cell_included <- match(colnames(expr_normed), 
+                          pData(HumanPaulMyeloid)$Well_ID, nomatch = 0)
+pdata_filter <- pData(HumanPaulMyeloid)[is_cell_included,]
+rownames(pdata_filter) <- pdata_filter$Well_ID
+str(pdata_filter)
+
+# make featureData
+fdata_filter <- data.frame(gene_names = rownames(expr_normed))
+rownames(fdata_filter) <- fdata_filter$gene_names
+str(fdata_filter)
+
+# putting all together
+HumanPaulMyeloid_wishbone_normed <- new("ExpressionSet",
+                    exprs = as.matrix(expr_normed),
+                    phenoData = new("AnnotatedDataFrame",
+                                    data = pdata_filter,
+                                    varMetadata = meta_list),
+                    featureData = new("AnnotatedDataFrame",
+                                      data = fdata_filter),
+                    experimentData = new("MIAME",
+                                         title = "Amit Paul Myeloid - filtered and normlized for Wishbone paper"))
+```
+
+
+Save all data to the same rda.
+
+```{r, eval = FALSE}
+save(HumanPaulMyeloid, HumanPaulMyeloid_wishbone_normed,
+        file = "../data/all-rda/HumanPaulMyeloid.rda")
+```
 
 
 ### Session information

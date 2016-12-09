@@ -183,17 +183,25 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#load-packages">Load packages</a></li>
+<li><a href="#setting-up">Setting up</a></li>
+<li><a href="#making-eset">Making eSet</a></li>
 <li><a href="#session-information">Session information</a></li>
 </ul>
 </div>
 
-<div id="load-packages" class="section level3">
-<h3>Load packages</h3>
+<div id="setting-up" class="section level3">
+<h3>Setting up</h3>
+<p>Load packages</p>
 <pre class="r"><code>library(data.table)
 library(Biobase)</code></pre>
+<p>Make directories.</p>
+<pre class="r"><code>data_dir &lt;- &quot;../data/HumanPaulMyeloid&quot;</code></pre>
+</div>
+<div id="making-eset" class="section level3">
+<h3>Making eSet</h3>
+<p>Format Raw data.</p>
 <pre class="r"><code># import read count matrix
-expr_data &lt;- read.table(&quot;../data/HumanPaulMyeloid/GSE72857_umitab.txt&quot;,
+expr_data &lt;- read.table(file.path(data_dir, &quot;GSE72857_umitab.txt&quot;),
                         header = TRUE, sep = &quot;\t&quot;, fill = TRUE,
                         stringsAsFactors = FALSE)
 counts &lt;- as.matrix(expr_data)
@@ -201,7 +209,7 @@ dim(counts)
 
 
 # import annotation matrix
-col_data &lt;- read.table(&quot;../data/HumanPaulMyeloid/GSE72857_experimental_design_copy.txt&quot;,
+col_data &lt;- read.table(file.path(data_dir, &quot;GSE72857_experimental_design_copy.txt&quot;),
                         header = TRUE, sep = &quot;\t&quot;, fill = TRUE,
                         stringsAsFactors = FALSE)
 rownames(col_data) &lt;- colnames(counts)
@@ -237,9 +245,44 @@ HumanPaulMyeloid &lt;- new(&quot;ExpressionSet&quot;,
                     featureData = new(&quot;AnnotatedDataFrame&quot;,
                                       data = row_data),
                     experimentData = new(&quot;MIAME&quot;,
-                                         title = &quot;Amit Paul Myeloid&quot;))
+                                         title = &quot;Amit Paul Myeloid&quot;))</code></pre>
+<p>Format the version of the data that was processed in Wishbone.</p>
+<pre class="r"><code>expr_normed &lt;- read.csv(file.path(data_dir,&quot;wishbone_mouse_marrow_scrnaseq.csv&quot;),
+                   header = TRUE, 
+                   fill = TRUE,
+                   stringsAsFactors = FALSE)
+rownames(expr_normed) &lt;- expr_normed[,1]
+expr_normed &lt;- expr_normed[,-1]
+expr_normed &lt;- t(expr_normed)
+str(expr_normed)
 
-save(HumanPaulMyeloid,
+# TBD: reformat the gene names
+# currently it&#39;s not in standard Ensembl gene format
+
+# Subset cells used in the normalize data.
+is_cell_included &lt;- match(colnames(expr_normed), 
+                          pData(HumanPaulMyeloid)$Well_ID, nomatch = 0)
+pdata_filter &lt;- pData(HumanPaulMyeloid)[is_cell_included,]
+rownames(pdata_filter) &lt;- pdata_filter$Well_ID
+str(pdata_filter)
+
+# make featureData
+fdata_filter &lt;- data.frame(gene_names = rownames(expr_normed))
+rownames(fdata_filter) &lt;- fdata_filter$gene_names
+str(fdata_filter)
+
+# putting all together
+HumanPaulMyeloid_wishbone_normed &lt;- new(&quot;ExpressionSet&quot;,
+                    exprs = as.matrix(expr_normed),
+                    phenoData = new(&quot;AnnotatedDataFrame&quot;,
+                                    data = pdata_filter,
+                                    varMetadata = meta_list),
+                    featureData = new(&quot;AnnotatedDataFrame&quot;,
+                                      data = fdata_filter),
+                    experimentData = new(&quot;MIAME&quot;,
+                                         title = &quot;Amit Paul Myeloid - filtered and normlized for Wishbone paper&quot;))</code></pre>
+<p>Save all data to the same rda.</p>
+<pre class="r"><code>save(HumanPaulMyeloid, HumanPaulMyeloid_wishbone_normed,
         file = &quot;../data/all-rda/HumanPaulMyeloid.rda&quot;)</code></pre>
 </div>
 <div id="session-information" class="section level3">

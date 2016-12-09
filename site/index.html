@@ -19,6 +19,9 @@
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="libs/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">
 
@@ -56,10 +59,6 @@ body {
 <link rel="stylesheet" href="libs/font-awesome-4.1.0/css/font-awesome.min.css"/>
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="libs/highlight/textmate.css"
-      type="text/css" />
-<script src="libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
@@ -134,7 +133,6 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="libs/navigation-1.1/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -185,8 +183,8 @@ $(document).ready(function () {
 </ul>
 </div>
 
-<p><strong>Last updated:</strong> 2016-11-11</p>
-<p><strong>Code version:</strong> 9eaf0e1929c44fe9f8c54d98b824c0db74f49aaa</p>
+<p><strong>Last updated:</strong> 2016-12-09</p>
+<p><strong>Code version:</strong> fe2b36446a61819f5a1448ca629a969239049f61</p>
 <hr />
 <div id="background" class="section level3">
 <h3>Background</h3>
@@ -201,28 +199,30 @@ $(document).ready(function () {
 <li>Human
 <ul>
 <li><p>Tung et al., 2016, Human iPSC, UMI <a href="https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC">GitHub</a>; <a href="HumanTungiPSC.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanTungiPSC&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanTungiPSC&quot;)</code></p></li>
 <li><p>Leng et al., 2015, Human ESC, reads <a href="https://github.com/jhsiao999/singleCellRNASeqHumanLengESC">GitHub</a>; <a href="HumanLengESC.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanLengESC&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanLengESC&quot;)</code></p></li>
 <li><p>Patel et al., 2014 (GSE57872), Human Glioblastoma <a href="https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma">GitHub</a>; <a href="HumanPatelGlioblastoma.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanPatelGlioblastoma&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanPatelGlioblastoma&quot;)</code></p></li>
 <li><p>Paul et al., 2015 (GSE72850), Human Myeloid <a href="https://github.com/jhsiao999/singleCellRNASeqHumanPaulMyeloid">GitHub</a>; <a href="HumanPaulMyeloid.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanPaulMyeloid&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanPaulMyeloid&quot;)</code></p></li>
+<li><p>Buettner et al., 2015, human T cells <a href="https://github.com/jhsiao999/singleCellRNASeqHumanBuettnerTCell">GitHub</a>; <a href="HumanBuettnerTCell.html">Codes</a><br />
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqHumanBuettnerTCell&quot;)</code></p></li>
 </ul></li>
 <li>Mouse
 <ul>
 <li><p>Buettner et al., 2015, mouse ESC, reads <a href="https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC">GitHub</a>; <a href="MouseBuettnerESC.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseBuettnerESC&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseBuettnerESC&quot;)</code></p></li>
 <li><p>Deng et al., 2014, mouse ESC <a href="https://github.com/jhsiao999/singleCellRNASeqMouseDengESC">GitHub</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseDengESC&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseDengESC&quot;)</code></p></li>
 <li><p>Jaitin et al., 2014, mouse Spleen cells, UMI <a href="https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen">GitHub</a>; <a href="MouseJaitinSpleen.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseJaitinSpleen&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseJaitinSpleen&quot;)</code></p></li>
 <li><p>Treutlein et al., 2014, mouse lung cells, reads <a href="https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung">GitHub</a>; <a href="MouseTreutleinLung.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseTreutleinLung&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseTreutleinLung&quot;)</code></p></li>
 <li><p>Scialdone et al., 2015, mouse liver cells <a href="https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver">GitHub</a>; <a href="MouseScialdoneLiver.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseScialdoneLiver&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseScialdoneLiver&quot;)</code></p></li>
 <li><p>Zeisel et al., 2015, mouse brain, UMI <a href="https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain">GitHub</a>; <a href="MouseZeiselBrain.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseZeiselBrain&quot;)</code></p></li>
+<code>devtools::install_github(&quot;jhsiao999/singleCellRNASeqMouseZeiselBrain&quot;)</code></p></li>
 </ul></li>
 </ul>
 </div>
@@ -232,7 +232,7 @@ $(document).ready(function () {
 <li>Mouse
 <ul>
 <li>Scialdone et al., 2015, mouse ESC <a href="https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC">GitHub</a>; <a href="MouseScialdoneESC.html">Codes</a><br />
- <code>devtools::install_github(&quot;jhsiao999/bulkRNASeqMouseScialdoneESC&quot;)</code></li>
+<code>devtools::install_github(&quot;jhsiao999/bulkRNASeqMouseScialdoneESC&quot;)</code></li>
 </ul></li>
 </ul>
 </div>
@@ -276,8 +276,11 @@ $(document).ready(function () {
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
 
 

@@ -1,7 +1,7 @@
 ---
-title: "Making MouseBuettnerESC package"
+title: "Making MouseBuettnerTCell package"
 author: "Joyce Hsiao"
-date: "2016-08-26"
+date: "2016-12-08"
 output:
   html_document:
     css: floating-toc.css
@@ -20,46 +20,41 @@ opts_chunk$set(eval = FALSE, echo = TRUE)
 ```{r}
 library(data.table)
 library(Biobase)
+library(xlsx)
 ```
 
 
-### Buettner et al., 2015, mouse ESC, reads + ERCC
+### Buettner et al., 2015, differentation TCells
 
 
 ```{r, eval = FALSE}
 # import count matrix, convert to a matrix object
-G1_cells <- data.frame(
-    fread('../data/MouseBuettnerESC/G1_singlecells_counts.txt'),
-    row.names = 1)
-G2M_cells <- data.frame(
-    fread('../data/MouseBuettnerESC/G2M_singlecells_counts.txt'),
-    row.names = 1)
-S_cells <- data.frame(
-    fread('../data/MouseBuettnerESC/S_singlecells_counts.txt'),
-    row.names = 1)
-stopifnot(all.equal(rownames(G1_cells), rownames(G2M_cells)))
+T_cells <- read.csv('../data/HumanBuettnerTCell/nbt.3102-S7.csv', 
+                     header = TRUE, fill = TRUE,
+                     stringsAsFactors = FALSE)
+T_cells <- T_cells[,-1]
+T_cells <- t(T_cells)
 
 
 # make a count matrix
-counts <- cbind(G1_cells[, -c(1:3)],
-                G2M_cells[, -c(1:3)],
-                S_cells[, -c(1:3)] )
+counts <- T_cells
+colnames(counts) <- rep(1:NCOL(counts))
 
 # feature info
-gene_info <- data.frame(G1_cells[ ,1:3])
+gene_info <- data.frame(gene_names = rownames(counts))
 row_data <- gene_info
+rownames(row_data) <- gene_info$gene_names
 
 # phenotype info
-meta_list <- data.frame(labelDescription = c("cell-cycle phase"),
-                    row.names = c("cell_cycle"))
-col_data <- data.frame(cell_cycle = as.character(
-    rep(c("G1", "G2M", "S"), each = 96)) )
+meta_list <- data.frame(labelDescription = c("cellID"),
+                    row.names = c("cellID"))
+col_data <- data.frame(cellID = as.character(seq(1:NCOL(counts))))
+
 rownames(col_data) <- colnames(counts)
 stopifnot(all.equal(rownames(col_data), colnames(counts)))
 
-
 # putting all together
-MouseBuettnerESC <- new("ExpressionSet",
+HumanBuettnerTCell <- new("ExpressionSet",
                 exprs = as.matrix(counts),
                 phenoData = new("AnnotatedDataFrame",
                                 data = col_data,
@@ -67,11 +62,11 @@ MouseBuettnerESC <- new("ExpressionSet",
                 featureData = new("AnnotatedDataFrame",
                                   data = row_data),
                 experimentData = new("MIAME",
-                                     title = "Buttner Mouse ESC"))
+                                     title = "Buttner Human T cells"))
 
 
-save(MouseBuettnerESC,
-        file = "../data/all-rds/MouseBuettnerESC.rda")
+save(HumanBuettnerTCell,
+        file = "../data/all-rda/HumanBuettnerTCell.rda")
 ```
 
 
