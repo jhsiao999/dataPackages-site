@@ -215,7 +215,7 @@ library(xlsx)</code></pre>
 <div id="load-data" class="section level3">
 <h3>Load data</h3>
 <pre class="r"><code># import count matrix, convert to a matrix object
-T_cells &lt;- read.csv(&#39;../data/HumanBuettnerTCell/nbt.3102-S7.csv&#39;, 
+T_cells &lt;- read.csv(&#39;../data/HumanBuettnerTCell/nbt.3102-S7-sheet1.csv&#39;, 
                      header = TRUE, fill = TRUE,
                      stringsAsFactors = FALSE)
 T_cells &lt;- T_cells[,-1]
@@ -229,18 +229,23 @@ colnames(counts) &lt;- rep(1:NCOL(counts))
 # feature info
 gene_info &lt;- data.frame(gene_names = rownames(counts))
 row_data &lt;- gene_info
-rownames(row_data) &lt;- gene_info$gene_names
+rownames(row_data) &lt;- gene_info$gene_names</code></pre>
+<p>Phenotype info</p>
+<pre class="r"><code># import cluster assignment determined in the original paper Buettner et al., 2015
 
-# phenotype info
-meta_list &lt;- data.frame(labelDescription = c(&quot;cellID&quot;),
-                    row.names = c(&quot;cellID&quot;))
-col_data &lt;- data.frame(cellID = as.character(seq(1:NCOL(counts))))
+cluster_list &lt;- read.csv(&#39;../data/HumanBuettnerTCell/nbt.3102-S7-sheet3.csv&#39;, 
+                     header = TRUE, fill = TRUE,
+                     stringsAsFactors = FALSE)
+
+meta_list &lt;- data.frame(labelDescription = c(&quot;cellID&quot;, &quot;Cluster (Gata3 High)&quot;),
+                    row.names = c(&quot;cellID&quot;, &quot;Cluster&quot;))
+col_data &lt;- data.frame(cellID = as.character(seq(1:NCOL(counts))),
+                       Cluster = cluster_list[ ,2])
 
 rownames(col_data) &lt;- colnames(counts)
-stopifnot(all.equal(rownames(col_data), colnames(counts)))
-
-# putting all together
-HumanBuettnerTCell &lt;- new(&quot;ExpressionSet&quot;,
+stopifnot(all.equal(rownames(col_data), colnames(counts)))</code></pre>
+<p>Putting all together</p>
+<pre class="r"><code>HumanBuettnerTCell &lt;- new(&quot;ExpressionSet&quot;,
                 exprs = as.matrix(counts),
                 phenoData = new(&quot;AnnotatedDataFrame&quot;,
                                 data = col_data,

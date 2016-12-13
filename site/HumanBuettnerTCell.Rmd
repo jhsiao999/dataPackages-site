@@ -37,7 +37,7 @@ Buettner et al., 2015, differentation TCells
 
 ```{r, eval = FALSE}
 # import count matrix, convert to a matrix object
-T_cells <- read.csv('../data/HumanBuettnerTCell/nbt.3102-S7.csv', 
+T_cells <- read.csv('../data/HumanBuettnerTCell/nbt.3102-S7-sheet1.csv', 
                      header = TRUE, fill = TRUE,
                      stringsAsFactors = FALSE)
 T_cells <- T_cells[,-1]
@@ -52,16 +52,29 @@ colnames(counts) <- rep(1:NCOL(counts))
 gene_info <- data.frame(gene_names = rownames(counts))
 row_data <- gene_info
 rownames(row_data) <- gene_info$gene_names
+```
 
-# phenotype info
-meta_list <- data.frame(labelDescription = c("cellID"),
-                    row.names = c("cellID"))
-col_data <- data.frame(cellID = as.character(seq(1:NCOL(counts))))
+Phenotype info
+
+```{r make-pheno}
+# import cluster assignment determined in the original paper Buettner et al., 2015
+
+cluster_list <- read.csv('../data/HumanBuettnerTCell/nbt.3102-S7-sheet3.csv', 
+                     header = TRUE, fill = TRUE,
+                     stringsAsFactors = FALSE)
+
+meta_list <- data.frame(labelDescription = c("cellID", "Cluster (Gata3 High)"),
+                    row.names = c("cellID", "Cluster"))
+col_data <- data.frame(cellID = as.character(seq(1:NCOL(counts))),
+                       Cluster = cluster_list[ ,2])
 
 rownames(col_data) <- colnames(counts)
 stopifnot(all.equal(rownames(col_data), colnames(counts)))
+```
 
-# putting all together
+Putting all together
+
+```{r make eset}
 HumanBuettnerTCell <- new("ExpressionSet",
                 exprs = as.matrix(counts),
                 phenoData = new("AnnotatedDataFrame",

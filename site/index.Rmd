@@ -8,62 +8,35 @@ title: "R data packages"
 
 -----
 
-### Background
-
 This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. 
 
+
+```{r load-list, fig.width=9}
+source("../code/make-search-table.R")
+
+library(DT)
+datatable(list, escape = FALSE)
+```
+
+
+
 * [Data description](data-description.html) 
-
-
-### Single cell RNA-Seq Data packages
-
-* Human
-    * Tung et al., 2016, Human iPSC, UMI [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC); [Codes](HumanTungiPSC.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqHumanTungiPSC")`  
-      
-    * Leng et al., 2015, Human ESC, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanLengESC); [Codes](HumanLengESC.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqHumanLengESC")`  
-      
-    * Patel et al., 2014 (GSE57872), Human Glioblastoma [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma); [Codes](HumanPatelGlioblastoma.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqHumanPatelGlioblastoma")`  
-      
-    * Paul et al., 2015 (GSE72850), Human Myeloid
-    [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanPaulMyeloid); [Codes](HumanPaulMyeloid.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqHumanPaulMyeloid")`  
-
-    * Buettner et al., 2015, human T cells [GitHub](https://github.com/jhsiao999/singleCellRNASeqHumanBuettnerTCell); [Codes](HumanBuettnerTCell.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqHumanBuettnerTCell")`  
-      
-* Mouse
-    * Buettner et al., 2015, mouse ESC, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC); [Codes](MouseBuettnerESC.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqMouseBuettnerESC")`  
-    
-    * Deng et al., 2014, mouse ESC [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseDengESC)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqMouseDengESC")`  
-      
-    * Jaitin et al., 2014, mouse Spleen cells, UMI [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen); [Codes](MouseJaitinSpleen.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqMouseJaitinSpleen")`  
-      
-    * Treutlein et al., 2014, mouse lung cells, reads [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung); [Codes](MouseTreutleinLung.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqMouseTreutleinLung")`  
-    
-    * Scialdone et al., 2015, mouse liver cells [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver); [Codes](MouseScialdoneLiver.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqMouseScialdoneLiver")`  
-      
-    * Zeisel et al., 2015, mouse brain, UMI
-      [GitHub](https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain); [Codes](MouseZeiselBrain.html)  
-      `devtools::install_github("jhsiao999/singleCellRNASeqMouseZeiselBrain")`  
-
-
-
-### bulk sample RNA-Seq Data packages
-
-* Mouse
-    * Scialdone et al., 2015, mouse ESC [GitHub](https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC); [Codes](MouseScialdoneESC.html)  
-      `devtools::install_github("jhsiao999/bulkRNASeqMouseScialdoneESC")`  
-
-
-
-### Other related information
-
 * [How to make SummarizedExperiment object](summarized-experiment.html)
+* [How to make HTML table widge by RStudio](https://rstudio.github.io/DT/)
+
+
+## Codes for making packages -- put inside packages
+
+    * Leng et al., 2015 (HumanLengESC.html)  
+    * Patel et al., 2014 (HumanPatelGlioblastoma.html)  
+    * Paul et al., 2015 (HumanPaulMyeloid.html)  
+    * Buettner et al., 2015 (HumanBuettnerTCell.html)      
+    * Buettner et al., 2015 (MouseBuettnerESC.html)  
+    * Deng??
+    * Jaitin et al., 2014,(MouseJaitinSpleen.html)  
+    * Treutlein et al., 2014 (MouseTreutleinLung.html)  
+    * Scialdone et al., 2015 (MouseScialdoneLiver.html)  
+    * Zeisel et al., 2015 (MouseZeiselBrain.html)  
+    * Scialdone et al., 2015 (MouseScialdoneESC.html)  
+
+
