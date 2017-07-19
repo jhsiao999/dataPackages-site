@@ -1,11 +1,15 @@
 ---
 title: "Data description"
-author: "Joyce Hsiao"
-date: "2016-02-17"
 output: 
   html_document:
     css: floating-toc.css
     toc: true
+---
+
+**Last updated:** `r Sys.Date()`
+
+**Code version:** `r system("git log -1 --format='%H'", intern = TRUE)`
+
 ---
 
 Hicks et al. provided detail accounts of experimental design for each of the studies. See their [supplemental material][Hicks-SI].

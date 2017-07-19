@@ -4,15 +4,14 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="First Last" />
 
 
-<title>Untitled</title>
+<title>Data description</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +19,9 @@
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="libs/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">
 
@@ -57,10 +59,6 @@ body {
 <link rel="stylesheet" href="libs/font-awesome-4.1.0/css/font-awesome.min.css"/>
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="libs/highlight/textmate.css"
-      type="text/css" />
-<script src="libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
@@ -103,6 +101,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="floating-toc.css" type="text/css" />
 
 </head>
 
@@ -131,10 +130,10 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="libs/navigation-1.0/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -156,14 +155,14 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">ashlar</a>
+      <a class="navbar-brand" href="index.html">dataPackages</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="license.html">License</a></li>
-        <li><a href="https://github.com/jhsiao999/ashlar">GitHub</a></li>
+        <li><a href="https://github.com/jhsiao999/dataPackages-site">GitHub</a></li>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -172,47 +171,32 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Untitled</h1>
-<h4 class="author"><em>First Last</em></h4>
-<h4 class="date"><em>YYYY-MM-DD</em></h4>
+<h1 class="title toc-ignore">Data description</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#section-title">Section title</a></li>
-<li><a href="#session-information">Session information</a></li>
+<li><a href="#jaitin2014jaitin2014"><a href="https://dx.10.1126/science.1247651">Jaitin2014</a></a></li>
+<li><a href="#leng2015leng2015"><a href="https://dx.doi.org/10.1038/nmeth.3549">Leng2015</a></a></li>
 </ul>
 </div>
 
-<p><strong>Last updated:</strong> 2016-07-01</p>
-<p><strong>Code version:</strong> 3d475094ce73ae18d71f836b5a810bafc3520424</p>
-<p>This is a template for writing reports with R Markdown.</p>
-<div id="section-title" class="section level2">
-<h2>Section title</h2>
-<p>You can create a new file from the template using the command <code>cp</code>.</p>
-<pre class="bash"><code>cp analysis/template.Rmd analysis/newfile.Rmd</code></pre>
+<p><strong>Last updated:</strong> 2017-07-19</p>
+<p><strong>Code version:</strong> ec60bd334cc88f5a9f62c9af08cc6c3c6d7e57f4</p>
+<hr />
+<p>Hicks et al. provided detail accounts of experimental design for each of the studies. See their <a href="http://biorxiv.org/content/early/2015/08/25/025528">supplemental material</a>.</p>
+<div id="jaitin2014jaitin2014" class="section level2">
+<h2><a href="https://dx.10.1126/science.1247651">Jaitin2014</a></h2>
+<p><strong>Accession code</strong>: NCBI Gene Expression Omnibus: GSE54006. (UMI counts)</p>
+<p>The <em>SummarizedExperiment</em> object includes 4590 cells deposited in the GEO data bank. The authors described in their supplemental materials that wells with more than 2 cells were removed in quality filter. However, the number of cells removed in quality filtering was not provided.</p>
+<p>Hicks et al. included 4,460 cells. Cells with a total of 0 UMI count and cells with a proportion of genes detected greater than 20% were removed from their analysis.</p>
 </div>
-<div id="session-information" class="section level2">
-<h2>Session information</h2>
-<pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R Under development (unstable) (2016-03-11 r70310)
-Platform: x86_64-apple-darwin13.4.0 (64-bit)
-Running under: OS X 10.10.5 (Yosemite)
-
-locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] knitr_1.13
-
-loaded via a namespace (and not attached):
- [1] magrittr_1.5    formatR_1.4     tools_3.3.0     htmltools_0.3.5
- [5] yaml_2.1.13     Rcpp_0.12.5     stringi_1.1.1   rmarkdown_0.9.6
- [9] stringr_1.0.0   digest_0.6.9    evaluate_0.9   </code></pre>
+<div id="leng2015leng2015" class="section level2">
+<h2><a href="https://dx.doi.org/10.1038/nmeth.3549">Leng2015</a></h2>
+<p><strong>Accession code</strong>: NCBI Gene Expression Omnibus: GSE64016.</p>
+<p>The <em>SummarizedExpeirment</em> object includes 460 cells that were evaluated and passed the quality filtering criterion in the experiment - having fewer than 5,000 genes with TPM &gt; 1. These include 213 unlabeld human embryonic stem cells (hESCs), and 91, 80, and 76 hESCS that were sorted into G1, S, and G2/M phases. Note that the unlabeld hESCs were collected on three C1 plates, and that the sorted cells that belong to the same cell-cycle were plated onto the same C1 plate.</p>
+<p>Hicks et al. includes 458 cells in their analysis. Two outlier cells with more than 40% of genes detected were removed.</p>
 </div>
 
 
@@ -248,9 +232,13 @@ $(document).ready(function () {
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
+
 
 </script>
 
@@ -259,7 +247,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

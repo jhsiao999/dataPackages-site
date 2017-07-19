@@ -9,11 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Joyce Hsiao" />
 
-<meta name="date" content="2016-08-26" />
 
-<title>Making MouseDengESC package (GSE45719)</title>
+<title>Make Data packages</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -103,7 +101,6 @@ h6 {
 }
 </style>
 
-<link rel="stylesheet" href="floating-toc.css" type="text/css" />
 
 </head>
 
@@ -173,81 +170,34 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Making MouseDengESC package (GSE45719)</h1>
-<h4 class="author"><em>Joyce Hsiao</em></h4>
-<h4 class="date"><em>2016-08-26</em></h4>
+<h1 class="title toc-ignore">Make Data packages</h1>
 
 </div>
 
-<div id="TOC">
+
+<p>The code for generating each individual R data packages is stored in a separate Rmarkdown file.</p>
 <ul>
-<li><a href="#load-packages">Load packages</a></li>
-<li><a href="#deng-et-al-2014-counts">Deng et al 2014, counts</a></li>
-<li><a href="#session-information">Session information</a></li>
+<li>Leng et al., 2015 (HumanLengESC.html)<br />
+</li>
+<li>Patel et al., 2014 (HumanPatelGlioblastoma.html)<br />
+</li>
+<li>Paul et al., 2015 (HumanPaulMyeloid.html)<br />
+</li>
+<li>Buettner et al., 2015 (HumanBuettnerTCell.html)<br />
+</li>
+<li>Buettner et al., 2015 (MouseBuettnerESC.html)<br />
+</li>
+<li>Deng??</li>
+<li>Jaitin et al., 2014,(MouseJaitinSpleen.html)<br />
+</li>
+<li>Treutlein et al., 2014 (MouseTreutleinLung.html)<br />
+</li>
+<li>Scialdone et al., 2015 (MouseScialdoneLiver.html)<br />
+</li>
+<li>Zeisel et al., 2015 (MouseZeiselBrain.html)<br />
+</li>
+<li>Scialdone et al., 2015 (MouseScialdoneESC.html)</li>
 </ul>
-</div>
-
-<div id="load-packages" class="section level3">
-<h3>Load packages</h3>
-<pre class="r"><code>library(data.table)
-library(Biobase)</code></pre>
-</div>
-<div id="deng-et-al-2014-counts" class="section level3">
-<h3>Deng et al 2014, counts</h3>
-<pre class="r"><code>reads &lt;- data.frame(data.table::fread(&#39;../data/MouseDengESC/Deng_cell_data.txt&#39;),row.names=1);
-files &lt;- list.files(&quot;../data/Deng_Data/Deng_files/&quot;);
-
-cell_meta &lt;- unlist(lapply(files, function(x) strsplit(x,&quot;_&quot;)[[1]][2]));
-embryo_id &lt;- unlist(lapply(files, function(x) strsplit(strsplit(x,&quot;_&quot;)[[1]][3],&quot;-&quot;)[[1]][1]));
-cell_meta[grep(&quot;zy&quot;,cell_meta)]=&quot;zy&quot;;
-cell_meta[grep(&quot;smartseq2&quot;, files)]=&quot;8cell_nd&quot;;
-cell_meta[grep(&quot;8cell_2pooled&quot;, files)]=&quot;8cell_nd&quot;;
-cell_meta[grep(&quot;8cell_split&quot;, files)]=&quot;8cell_nd&quot;;
-cell_meta[grep(&quot;16cell_2pooled&quot;, files)]=&quot;16cell_nd&quot;;
-cell_meta[grep(&quot;16cell_split&quot;, files)]=&quot;16cell_nd&quot;;
-indices_not_reqd &lt;- which(cell_meta==&quot;BXC&quot;   | cell_meta==&quot;C57twocell&quot; | cell_meta==&quot;fibroblast&quot; | cell_meta ==&quot;8cell_nd&quot; | cell_meta == &quot;16cell_nd&quot;);
-cell_meta &lt;- cell_meta[-indices_not_reqd];
-embryo_id &lt;- embryo_id[-indices_not_reqd];
-embryo_id[which(embryo_id == &quot;expression.txt&quot;)]=&quot;.&quot;
-
-reads &lt;- reads[,-indices_not_reqd];
-cell_meta_unique &lt;- c(&quot;zy&quot;,&quot;early2cell&quot;,&quot;mid2cell&quot;,&quot;late2cell&quot;,&quot;4cell&quot;,&quot;8cell&quot;,&quot;16cell&quot;,&quot;earlyblast&quot;,&quot;midblast&quot;,&quot;lateblast&quot;) ;
-order_of_development &lt;- order(match(cell_meta,cell_meta_unique))
-reads &lt;- reads[,order_of_development];
-cell_meta &lt;- cell_meta[order_of_development]
-embryo_id &lt;- embryo_id[order_of_development]
-
-row_data &lt;- data.frame(gene_name = as.character(rownames(reads)),
-                       stringsAsFactors = FALSE)
-rownames(row_data) &lt;- rownames(reads)
-
-col_data &lt;- data.frame(
-    cell_type = cell_meta,
-    embryo_id = embryo_id);
-
-colnames(col_data) &lt;- c(&quot;cell_type&quot;, &quot;embryo_id&quot;);
-rownames(col_data) &lt;- colnames(reads);
-
-meta_list &lt;- data.frame(labelDescription = c(&quot;cell-type&quot;,
-                                             &quot;embryo-id&quot;),
-                    row.names = colnames(col_data))
-
-Deng2014MouseESC &lt;- new(&quot;ExpressionSet&quot;,
-                exprs = as.matrix(reads),
-                phenoData = new(&quot;AnnotatedDataFrame&quot;,
-                                data = col_data),
-                featureData = new(&quot;AnnotatedDataFrame&quot;,
-                                  data = row_data),
-                experimentData = new(&quot;MIAME&quot;,
-                                     title = &quot;Deng 2014 Mouse ESC&quot;))
-
-save(Deng2014MouseESC,
-        file = &quot;../data/all-rds/Deng2014MouseEsc.rda&quot;)</code></pre>
-</div>
-<div id="session-information" class="section level3">
-<h3>Session information</h3>
-<pre class="r"><code>sessionInfo()</code></pre>
-</div>
 
 
 <!-- some extra javascript for older browsers -->

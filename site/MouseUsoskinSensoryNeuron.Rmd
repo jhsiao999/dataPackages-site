@@ -1,0 +1,95 @@
+---
+title: "Making MouseUsoskinSensoryNeuron package"
+author: "Joyce Hsiao"
+date: "2017-07-12"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+
+### Usoskin et al., 2015, Mouse Sensory Neuron
+
+Data was downloaed from GSE and contains *RPM (reads per million kilobase)*. 
+
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE59739
+
+
+```{r, eval = F}
+# import annotation matrix, conver to a DatFrame object
+df_data <- as.matrix(
+    fread("../data/MouseUsoskinSensoryNeuron/GSE59739_DataTable.txt",
+          header = FALSE) )
+
+col_foo <- t(df_data[1:5,])
+
+col_data <- data.frame(
+    sampleID = col_foo[-1,1],
+    plateID = sapply(c(col_foo[-1,1]), function(x) strsplit(x, split = "_")[[1]][1]),
+    cell_picking_session = col_foo[-1,2],
+    cell_picking_temp = col_foo[-1,3],
+    sex = col_foo[-1,4],
+    well_content = col_foo[-1,5],
+    stringsAsFactors = FALSE)
+rownames(col_data) <- col_data$sampleID
+
+# feature data
+row_data <- data.frame(gene_name = as.character(df_data[-c(1:5),1]),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- row_data$gene_name
+
+# save counts to a matrix object
+counts <- matrix(df_data[-c(1:5), -1], 
+                 nrow = NROW(counts), ncol = NCOL(counts))
+rownames(counts) <- row_data$gene_name
+colnames(counts) <- rownames(col_data)
+
+
+meta_list <- data.frame(
+    labelDescription = c("Sample ID",
+                         "Plate ID",
+                         "Cell picking session",
+                         "Cell picking temperature",
+                         "Sex",
+                         "Well content (no. cell)"),
+    row.names = colnames(col_data) )
+
+
+# putting all together
+MouseUsoskinSensoryNeuron <- new("ExpressionSet",
+                        exprs = as.matrix(counts),
+                        phenoData = new("AnnotatedDataFrame",
+                                        data = col_data,
+                                        varMetadata = meta_list),
+                        featureData = new("AnnotatedDataFrame",
+                                          data = row_data),
+                        experimentData = new("MIAME",
+                                             title = "Usoskin Sensory Neuron"))
+
+
+save(MouseUsoskinSensoryNeuron,
+     file = "../data/all-rda/MouseUsoskinSensoryNeuron.rda")
+```
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+

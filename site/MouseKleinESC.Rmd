@@ -1,0 +1,93 @@
+---
+title: "Making MouseKleinESC package"
+author: "Joyce Hsiao"
+date: "2017-05-03"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r}
+library(data.table)
+library(Biobase)
+```
+
+Reference: Allon M Klein, Linas Mazutis, Ilke Akartuna, Naren Tallapragada, Adrian Veres, Victor Li, Leonid Peshkin, David A Weitz, and Marc W Kirschner. Droplet barcoding for single cell transcriptomics applied to embryonic stem cells. Cell 161, 1187-1201 (2015) DOI: 10.1016/j.cell.2015.04.044
+
+Here we take only Day 0 samples.
+
+```{r, eval = F}
+# import data
+day0 <- data.table::fread("../data/MouseKleinESC/GSM1599494_ES_d0_main.csv")
+day2 <- data.table::fread("../data/MouseKleinESC/GSM1599497_ES_d2_LIFminus.csv") 
+day4 <- data.table::fread("../data/MouseKleinESC/GSM1599498_ES_d4_LIFminus.csv") 
+
+# save counts to a matrix object
+counts_day0 <- day0[,-1]
+counts_day2 <- day2[,-1]
+counts_day4 <- day2[,-1]
+
+all.equal(rownames(counts_day0), rownames(counts_day2))
+all.equal(rownames(counts_day0), rownames(counts_day4))
+
+counts <- cbind(counts_day0, counts_day2, counts_day4)
+
+colnames(counts) <- c(paste0("sample.0.",c(1:NCOL(counts_day0))),
+                      paste0("sample.2.",c(1:NCOL(counts_day2))),
+                      paste0("sample.4.",c(1:NCOL(counts_day4))) )
+rownames(counts) <- unlist(day0[,1])
+
+# make phenoData object
+col_data <- data.frame(
+  sample_id = colnames(counts),
+  day = c( rep(0, length(colnames(counts_day0))), rep(2, length(colnames(counts_day2))),
+           rep(4, length(colnames(counts_day4)))  )) 
+rownames(col_data) <- colnames(counts)
+
+# make featureData object
+
+row_data <- data.frame(gene_name = as.character(rownames(counts)),
+                       stringsAsFactors = FALSE)
+rownames(row_data) <- rownames(counts)
+
+meta_list <- data.frame(labelDescription = c("Sample ID", "Day"),
+                        row.names = colnames(col_data) )
+
+
+# putting all together
+MouseKleinESC <- new("ExpressionSet",
+                        exprs = as.matrix(counts),
+                        phenoData = new("AnnotatedDataFrame",
+                                        data = col_data,
+                                        varMetadata = meta_list),
+                        featureData = new("AnnotatedDataFrame",
+                                          data = row_data),
+                        experimentData = new("MIAME",
+                                             title = "Klein Mouse ESC"))
+
+
+save(MouseKleinESC,
+     file = "../data/all-rda/MouseKleinESC.rda")
+```
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+
+
+
+
+

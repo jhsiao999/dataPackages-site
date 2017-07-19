@@ -1,0 +1,22 @@
+---
+title: "Make Data packages"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The code for generating each individual R data packages is stored in a separate Rmarkdown file. 
+
+* Leng et al., 2015 (HumanLengESC.html)  
+* Patel et al., 2014 (HumanPatelGlioblastoma.html)  
+* Paul et al., 2015 (HumanPaulMyeloid.html)  
+* Buettner et al., 2015 (HumanBuettnerTCell.html)      
+* Buettner et al., 2015 (MouseBuettnerESC.html)  
+* Deng??
+* Jaitin et al., 2014,(MouseJaitinSpleen.html)  
+* Treutlein et al., 2014 (MouseTreutleinLung.html)  
+* Scialdone et al., 2015 (MouseScialdoneLiver.html)  
+* Zeisel et al., 2015 (MouseZeiselBrain.html)  
+* Scialdone et al., 2015 (MouseScialdoneESC.html)  

@@ -1,5 +1,5 @@
 ---
-title: "R data packages"
+title: "Data packages"
 ---
 
 **Last updated:** `r Sys.Date()`
@@ -8,10 +8,11 @@ title: "R data packages"
 
 -----
 
-This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. 
+This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. You can find details of each experimental dataset from [here](data-description.html).
 
 
-```{r load-list, fig.width=9}
+
+```{r load-list, fig = "asis", fig.width=10, echo = FALSE}
 source("../code/make-search-table.R")
 
 library(DT)
@@ -19,24 +20,5 @@ datatable(list, escape = FALSE)
 ```
 
 
-
-* [Data description](data-description.html) 
-* [How to make SummarizedExperiment object](summarized-experiment.html)
-* [How to make HTML table widge by RStudio](https://rstudio.github.io/DT/)
-
-
-## Codes for making packages -- put inside packages
-
-    * Leng et al., 2015 (HumanLengESC.html)  
-    * Patel et al., 2014 (HumanPatelGlioblastoma.html)  
-    * Paul et al., 2015 (HumanPaulMyeloid.html)  
-    * Buettner et al., 2015 (HumanBuettnerTCell.html)      
-    * Buettner et al., 2015 (MouseBuettnerESC.html)  
-    * Deng??
-    * Jaitin et al., 2014,(MouseJaitinSpleen.html)  
-    * Treutlein et al., 2014 (MouseTreutleinLung.html)  
-    * Scialdone et al., 2015 (MouseScialdoneLiver.html)  
-    * Zeisel et al., 2015 (MouseZeiselBrain.html)  
-    * Scialdone et al., 2015 (MouseScialdoneESC.html)  
 
 

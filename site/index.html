@@ -4,14 +4,14 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
 
 
 
-<title>R data packages</title>
+<title>Data packages</title>
 
 <script src="libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,7 +22,7 @@
 <script src="libs/navigation-1.1/tabsets.js"></script>
 <link href="libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="libs/highlightjs-1.1/highlight.js"></script>
-<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
 <script src="libs/datatables-binding-0.2/datatables.js"></script>
 <link href="libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
@@ -175,45 +175,17 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R data packages</h1>
+<h1 class="title toc-ignore">Data packages</h1>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#codes-for-making-packages-put-inside-packages">Codes for making packages – put inside packages</a></li>
-</ul>
-</div>
 
-<p><strong>Last updated:</strong> 2016-12-13</p>
-<p><strong>Code version:</strong> cae9f86900655a798c5e96d0a997892a28aa8147</p>
+<p><strong>Last updated:</strong> 2017-07-19</p>
+<p><strong>Code version:</strong> ec60bd334cc88f5a9f62c9af08cc6c3c6d7e57f4</p>
 <hr />
-<p>This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in <code>ExpressionSet</code> object and make the data available as an R package on GitHub.</p>
-<pre class="r"><code>source(&quot;../code/make-search-table.R&quot;)
-
-library(DT)
-datatable(list, escape = FALSE)</code></pre>
-<div id="htmlwidget-feba141bdfeecb22b9da" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-feba141bdfeecb22b9da">{"x":{"filter":"none","data":[["<a href=\"doi:10.1038/nbt.3102\">Buettner et al.\u003c/a>","<a href=\"doi:10.1038/nbt.3102\">Buettner et al.\u003c/a>","<a href=\"doi:10.1126/science.1245316\">Deng et al.\u003c/a>","<a href=\"doi:10.1126/science.1247651\">Jaitin et al.\u003c/a>","<a href=\"doi:10.1038/nmeth.3549\">Leng et al.\u003c/a>","<a href=\"doi:\">Paul et al.\u003c/a>","<a href=\"doi:10.1126/science.1254257\">Patel et al.\u003c/a>","<a href=\"doi:10.1016/j.ymeth.2015.06.021\">Scialdone et al.\u003c/a>","<a href=\"doi:10.1016/j.ymeth.2015.06.021\">Scialdone et al.\u003c/a>","<a href=doi:10.1038/nature13173\">Treutlein et al.\u003c/a>","<a href=\"doi:\">Tung et al.\u003c/a>","<a href=\"doi:10.1126/science.aaa1934\">Zeisel et al.\u003c/a>"],["2015","2015","2014","2014","2015","2015","2014","2015","2015","2014","2016","2015"],["Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Bulk","Single cell","Single cell","Single cell"],["Mouse","Human","Mouse","Mouse","Human","Human","Human","Mouse","Mouse","Mouse","Human","Mouse"],["ESC","T cells","ESC","Spleen","ESC","Myeloid","Glioblastoma","Liver","ESC","Lung","iPSC","Brain"],["reads","reads","reads","UMI","reads","?","?","?","UMI","Read","UMI","UMI"],["ERCC","?","None","?","None","?","?","?","None","?","ERCC","?"],["<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC\">jhsiao999/singleCellRNASeqMouseBuettnerESC\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanBuettnerTCell\">jhsiao999/singleCellRNASeqHumanBuettnerTCell\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseDengESC\">jhsiao999/singleCellRNASeqMouseDengESC\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen\">jhsiao999/singleCellRNASeqMouseJaitinSpleen\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanLengESC\">jhsiao999/singleCellRNASeqHumanLengESC\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanPaulMyeloid\">jhsiao999/singleCellRNASeqHumanPaulMyeloid\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma\">jhsiao999/singleCellRNASeqHumanPatelGlioblastoma\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver\">jhsiao999/singleCellRNASeqMouseScialdoneLiver\u003c/a>","<a href=\"https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC\">jhsiao999/bulkRNASeqMouseScialdoneESC\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung\">jhsiao999/singleCellRNASeqMouseTreutleinLung\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC\">jhsiao999/singleCellRNASeqHumanTungiPSC\u003c/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain\">jhsiao999/singleCellRNASeqMouseZeiselBrain\u003c/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Authors\u003c/th>\n      <th>Year\u003c/th>\n      <th>Sample\u003c/th>\n      <th>Species\u003c/th>\n      <th>Cell type\u003c/th>\n      <th>Count\u003c/th>\n      <th>Control\u003c/th>\n      <th>Data\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><a href="data-description.html">Data description</a></li>
-<li><a href="summarized-experiment.html">How to make SummarizedExperiment object</a></li>
-<li><a href="https://rstudio.github.io/DT/">How to make HTML table widge by RStudio</a></li>
-</ul>
-<div id="codes-for-making-packages-put-inside-packages" class="section level2">
-<h2>Codes for making packages – put inside packages</h2>
-<pre><code>* Leng et al., 2015 (HumanLengESC.html)  
-* Patel et al., 2014 (HumanPatelGlioblastoma.html)  
-* Paul et al., 2015 (HumanPaulMyeloid.html)  
-* Buettner et al., 2015 (HumanBuettnerTCell.html)      
-* Buettner et al., 2015 (MouseBuettnerESC.html)  
-* Deng??
-* Jaitin et al., 2014,(MouseJaitinSpleen.html)  
-* Treutlein et al., 2014 (MouseTreutleinLung.html)  
-* Scialdone et al., 2015 (MouseScialdoneLiver.html)  
-* Zeisel et al., 2015 (MouseZeiselBrain.html)  
-* Scialdone et al., 2015 (MouseScialdoneESC.html)  </code></pre>
-</div>
+<p>This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in <code>ExpressionSet</code> object and make the data available as an R package on GitHub. You can find details of each experimental dataset from <a href="data-description.html">here</a>.</p>
+<div id="htmlwidget-50163579e6618ffa482b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-50163579e6618ffa482b">{"x":{"filter":"none","data":[["<a href=\"doi:10.1038/nbt.3102\">Buettner et al.<\/a>","<a href=\"doi:10.1038/nbt.3102\">Buettner et al.<\/a>","<a href=\"doi:10.1126/science.1245316\">Deng et al.<\/a>","<a href=\"doi:10.1126/science.1247651\">Jaitin et al.<\/a>","<a href=\"doi:10.1038/nmeth.3549\">Leng et al.<\/a>","<a href=\"doi:\">Paul et al.<\/a>","<a href=\"doi:10.1126/science.1254257\">Patel et al.<\/a>","<a href=\"doi:10.1016/j.ymeth.2015.06.021\">Scialdone et al.<\/a>","<a href=\"doi:10.1016/j.ymeth.2015.06.021\">Scialdone et al.<\/a>","<a href=doi:10.1038/nature13173\">Treutlein et al.<\/a>","<a href=\"doi:\">Tung et al.<\/a>","<a href=\"doi:10.1126/science.aaa1934\">Zeisel et al.<\/a>"],["2015","2015","2014","2014","2015","2015","2014","2015","2015","2014","2016","2015"],["Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Bulk","Single cell","Single cell","Single cell"],["Mouse","Human","Mouse","Mouse","Human","Human","Human","Mouse","Mouse","Mouse","Human","Mouse"],["ESC","T cells","ESC","Spleen","ESC","Myeloid","Glioblastoma","Liver","ESC","Lung","iPSC","Brain"],["reads","reads","reads","UMI","reads","?","?","?","UMI","Read","UMI","UMI"],["ERCC","?","None","?","None","?","?","?","None","?","ERCC","?"],["<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC\">jhsiao999/singleCellRNASeqMouseBuettnerESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanBuettnerTCell\">jhsiao999/singleCellRNASeqHumanBuettnerTCell<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseDengESC\">jhsiao999/singleCellRNASeqMouseDengESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen\">jhsiao999/singleCellRNASeqMouseJaitinSpleen<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanLengESC\">jhsiao999/singleCellRNASeqHumanLengESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanPaulMyeloid\">jhsiao999/singleCellRNASeqHumanPaulMyeloid<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma\">jhsiao999/singleCellRNASeqHumanPatelGlioblastoma<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver\">jhsiao999/singleCellRNASeqMouseScialdoneLiver<\/a>","<a href=\"https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC\">jhsiao999/bulkRNASeqMouseScialdoneESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung\">jhsiao999/singleCellRNASeqMouseTreutleinLung<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC\">jhsiao999/singleCellRNASeqHumanTungiPSC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain\">jhsiao999/singleCellRNASeqMouseZeiselBrain<\/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Authors<\/th>\n      <th>Year<\/th>\n      <th>Sample<\/th>\n      <th>Species<\/th>\n      <th>Cell type<\/th>\n      <th>Count<\/th>\n      <th>Control<\/th>\n      <th>Data<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 
 <!-- some extra javascript for older browsers -->
@@ -263,7 +235,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
