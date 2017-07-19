@@ -15,7 +15,11 @@ output:
 Hicks et al. provided detail accounts of experimental design for each of the studies. See their [supplemental material][Hicks-SI].
 
 
-## [Jaitin2014][Jaitin2014]
+## [Deng et al., 2014]()
+
+
+
+## [Jaitin2014](https://dx.10.1126/science.1247651)
 
 __Accession code__: NCBI Gene Expression Omnibus: GSE54006. (UMI counts)
 
@@ -26,7 +30,7 @@ Hicks et al. included 4,460 cells. Cells with a total of 0 UMI count and cells w
 
 
 
-## [Leng2015][Leng2015]
+## [Leng2015](https://dx.doi.org/10.1038/nmeth.3549)
 
 __Accession code__: NCBI Gene Expression Omnibus: GSE64016.
 
@@ -37,6 +41,3 @@ Hicks et al. includes 458 cells in their analysis. Two outlier cells with more t
 
 
 [Hicks-SI]: http://biorxiv.org/content/early/2015/08/25/025528
-[Jaitin2014]: https://dx.10.1126/science.1247651
-[Leng2015]: https://dx.doi.org/10.1038/nmeth.3549
-

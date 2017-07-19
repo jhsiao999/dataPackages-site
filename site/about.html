@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -19,6 +19,9 @@
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="libs/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">
 
@@ -56,10 +59,6 @@ body {
 <link rel="stylesheet" href="libs/font-awesome-4.1.0/css/font-awesome.min.css"/>
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="libs/highlight/textmate.css"
-      type="text/css" />
-<script src="libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
@@ -130,10 +129,10 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="libs/navigation-1.0/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -155,14 +154,15 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">ashlar</a>
+      <a class="navbar-brand" href="index.html">single cell RNA-seq data packages</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">Data List</a></li>
+        <li><a href="dataDescription.html">Data Description</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="license.html">License</a></li>
-        <li><a href="https://github.com/jhsiao999/ashlar">GitHub</a></li>
+        <li><a href="https://github.com/jhsiao999/dataPackages-site">GitHub</a></li>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -176,9 +176,10 @@ $(document).ready(function () {
 </div>
 
 
-<p><strong>Last updated:</strong> 2016-07-01</p>
-<p><strong>Code version:</strong> 3d475094ce73ae18d71f836b5a810bafc3520424</p>
+<p><strong>Last updated:</strong> 2017-07-19</p>
+<p><strong>Code version:</strong> 6e3f87bf106c9545e1fd3fce23a68d0917541394</p>
 <p><a href="http://jhsiao999.github.io/">Joyce Hsiao</a> is a postdoctoral fellow in the Department of Human Genetics at the University of Chicago.</p>
+<p>The code for generating these data packages: makeDataPackages.html</p>
 
 
 <!-- some extra javascript for older browsers -->
@@ -213,9 +214,13 @@ $(document).ready(function () {
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
+
 
 </script>
 
@@ -224,7 +229,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

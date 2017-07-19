@@ -13,7 +13,7 @@ This site list mostly single-cell RNA-seq data sets downloaded from GEO. We stor
 
 
 ```{r load-list, fig = "asis", fig.width=10, echo = FALSE}
-source("../code/make-search-table.R")
+source("../code/makeSearchTable.R")
 
 library(DT)
 datatable(list, escape = FALSE)
