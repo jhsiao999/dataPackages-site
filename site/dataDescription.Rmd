@@ -15,9 +15,11 @@ output:
 Hicks et al. provided detail accounts of experimental design for each of the studies. See their [supplemental material][Hicks-SI].
 
 
-## [Deng et al., 2014]()
+
+## [Deng et al., 2014](https::/dx.10.1126/science.1245316)
 
 
+## [Macosko et al., 2015]()
 
 ## [Jaitin2014](https://dx.10.1126/science.1247651)
 
