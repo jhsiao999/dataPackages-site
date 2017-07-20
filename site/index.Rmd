@@ -1,5 +1,5 @@
 ---
-title: "Data packages"
+title: "Single Cel RNA-seq Data packages"
 ---
 
 **Last updated:** `r Sys.Date()`
