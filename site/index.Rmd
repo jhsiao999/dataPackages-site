@@ -8,7 +8,7 @@ title: "Data packages"
 
 -----
 
-This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. You can find details of each experimental dataset from [here](data-description.html).
+This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in `ExpressionSet` object and make the data available as an R package on GitHub. You can find details of each experimental dataset from [here](dataDescription.md).
 
 
 
