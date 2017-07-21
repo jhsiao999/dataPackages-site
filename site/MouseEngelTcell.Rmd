@@ -1,0 +1,74 @@
+---
+title: "Making MouseEngelTcell package"
+author: "Joyce Hsiao"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r, echo = FALSE}
+library(data.table)
+library(Biobase)
+```
+
+Engel, I., Seumois, G., Chavez, L., Samaniego-Castruita, D., White, B., Chawla, A., et al. (2016). Innate-like functions of natural killer T cell subsets result from highly divergent gene programs. Nature Immunology, 17(6), 728–739. http://doi.org/10.1038/ni.3437
+
+
+
+### Make data package
+
+```{r, eval = F}
+#---- conquer data
+library("MultiAssayExperiment")
+library("SummarizedExperiment")
+conquer <- readRDS(file = "../data/MouseEngelTcell/GSE74596-conquer.rds")
+
+# extract gene-level data
+cts <- SummarizedExperiment::assays(experiments(conquer)[["gene"]])[["count"]]
+cell_type <- pData(conquer)[["source_name_ch1"]]
+cell_type <- unlist(lapply(sapply(as.character(cell_type), function(x) strsplit(x, "_")), "[[", 4))
+gene_name <- unlist(lapply(sapply(rownames(cts), function(x) strsplit(x, ".", fixed = TRUE)), "[[", 1))
+
+
+cell_id <- paste0("cell.", c(1: length(cell_type)))
+col_data <- data.frame(cell_id = cell_id,
+                       cell_type = cell_type,
+                       row.names = cell_id)
+
+row_data <- data.frame(gene_name = gene_name,
+                       row.names = gene_name)
+rownames(cts) <- row_data$gene_name
+colnames(cts) <- col_data$cell_id
+
+library(Biobase)
+conquer_eset <- new("ExpressionSet",
+  exprs = as.matrix(cts),
+  phenoData = new("AnnotatedDataFrame",
+                  data = col_data),
+  featureData = new("AnnotatedDataFrame",
+                    data = row_data),
+  experimentData = new("MIAME",
+                       title = "Engel et al. 2016 mouse nature killer T cells (downloded from Conquer)"))
+
+save(conquer_eset, 
+        file = "../data/all-rda/MouseEngelTcell.rda")
+```
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+
+

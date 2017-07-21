@@ -31,27 +31,31 @@ Here we take only Day 0 samples.
 day0 <- data.table::fread("../data/MouseKleinESC/GSM1599494_ES_d0_main.csv")
 day2 <- data.table::fread("../data/MouseKleinESC/GSM1599497_ES_d2_LIFminus.csv") 
 day4 <- data.table::fread("../data/MouseKleinESC/GSM1599498_ES_d4_LIFminus.csv") 
+day7 <- data.table::fread("../data/MouseKleinESC/GSM1599499_ES_d7_LIFminus.csv") 
 
 # save counts to a matrix object
 counts_day0 <- day0[,-1]
 counts_day2 <- day2[,-1]
-counts_day4 <- day2[,-1]
+counts_day4 <- day4[,-1]
+counts_day7 <- day7[,-1]
 
 all.equal(rownames(counts_day0), rownames(counts_day2))
 all.equal(rownames(counts_day0), rownames(counts_day4))
+all.equal(rownames(counts_day0), rownames(counts_day7))
 
-counts <- cbind(counts_day0, counts_day2, counts_day4)
+counts <- cbind(counts_day0, counts_day2, counts_day4, counts_day7)
 
-colnames(counts) <- c(paste0("sample.0.",c(1:NCOL(counts_day0))),
-                      paste0("sample.2.",c(1:NCOL(counts_day2))),
-                      paste0("sample.4.",c(1:NCOL(counts_day4))) )
+colnames(counts) <- c(paste0("day.0.",c(1:NCOL(counts_day0))),
+                      paste0("day.2.",c(1:NCOL(counts_day2))),
+                      paste0("day.4.",c(1:NCOL(counts_day4))),
+                      paste0("day.7.",c(1:NCOL(counts_day7))))
 rownames(counts) <- unlist(day0[,1])
 
 # make phenoData object
 col_data <- data.frame(
   sample_id = colnames(counts),
   day = c( rep(0, length(colnames(counts_day0))), rep(2, length(colnames(counts_day2))),
-           rep(4, length(colnames(counts_day4)))  )) 
+           rep(4, length(colnames(counts_day4))), rep(7, length(colnames(counts_day7)))  )) 
 rownames(col_data) <- colnames(counts)
 
 # make featureData object

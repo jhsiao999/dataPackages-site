@@ -9,11 +9,13 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Joyce Hsiao" />
 
+<meta name="date" content="2017-03-30" />
 
-<title>Single Cel RNA-seq Data packages</title>
+<title>Making MouseShalekDendritic package</title>
 
-<script src="libs/jquery-1.12.4/jquery.min.js"></script>
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -22,11 +24,6 @@
 <script src="libs/navigation-1.1/tabsets.js"></script>
 <link href="libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="libs/highlightjs-1.1/highlight.js"></script>
-<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
-<script src="libs/datatables-binding-0.2/datatables.js"></script>
-<link href="libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
 
 <style type="text/css">
 
@@ -106,6 +103,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="floating-toc.css" type="text/css" />
 
 </head>
 
@@ -176,17 +174,63 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Single Cel RNA-seq Data packages</h1>
+<h1 class="title toc-ignore">Making MouseShalekDendritic package</h1>
+<h4 class="author"><em>Joyce Hsiao</em></h4>
+<h4 class="date"><em>2017-03-30</em></h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#load-packages">Load packages</a></li>
+<li><a href="#make-data-package">Make data package</a></li>
+<li><a href="#session-information">Session information</a></li>
+</ul>
+</div>
 
-<p><strong>Last updated:</strong> 2017-07-20</p>
-<p><strong>Code version:</strong> 333b400ca9793bf8b7b39cab15ee0816a1f24c93</p>
-<hr />
-<p>This site list mostly single-cell RNA-seq data sets downloaded from GEO. We store each of the data sets in <code>ExpressionSet</code> object and make the data available as an R package on GitHub. You can find details of each experimental dataset from <a href="dataDescription.md">here</a>.</p>
-<div id="htmlwidget-e4393fe2893d47977324" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e4393fe2893d47977324">{"x":{"filter":"none","data":[["<a href=\"doi:10.1038/nbt.3102\">Buettner et al.<\/a>","<a href=\"doi:10.1038/nbt.3102\">Buettner et al.<\/a>","<a href=\"doi:10.1126/science.1245316\">Deng et al.<\/a>","<a href=\"doi:10.1126/science.1247651\">Jaitin et al.<\/a>","<a href=\"doi:10.1038/nmeth.3549\">Leng et al.<\/a>","<a href=\"doi:\">Paul et al.<\/a>","<a href=\"doi:10.1126/science.1254257\">Patel et al.<\/a>","<a href=\"doi:10.1016/j.ymeth.2015.06.021\">Scialdone et al.<\/a>","<a href=\"doi:10.1016/j.ymeth.2015.06.021\">Scialdone et al.<\/a>","<a href=doi:10.1038/nature13173\">Treutlein et al.<\/a>","<a href=\"doi:\">Tung et al.<\/a>","<a href=\"doi:10.1126/science.aaa1934\">Zeisel et al.<\/a>"],["2015","2015","2014","2014","2015","2015","2014","2015","2015","2014","2016","2015"],["Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Single cell","Bulk","Single cell","Single cell","Single cell"],["Mouse","Human","Mouse","Mouse","Human","Human","Human","Mouse","Mouse","Mouse","Human","Mouse"],["ESC","T cells","ESC","Spleen","ESC","Myeloid","Glioblastoma","Liver","ESC","Lung","iPSC","Brain"],["reads","reads","reads","UMI","reads","?","?","?","UMI","Read","UMI","UMI"],["ERCC","?","None","?","None","?","?","?","None","?","ERCC","?"],["<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseBuettnerESC\">jhsiao999/singleCellRNASeqMouseBuettnerESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanBuettnerTCell\">jhsiao999/singleCellRNASeqHumanBuettnerTCell<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseDengESC\">jhsiao999/singleCellRNASeqMouseDengESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseJaitinSpleen\">jhsiao999/singleCellRNASeqMouseJaitinSpleen<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanLengESC\">jhsiao999/singleCellRNASeqHumanLengESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanPaulMyeloid\">jhsiao999/singleCellRNASeqHumanPaulMyeloid<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanPatelGlioblastoma\">jhsiao999/singleCellRNASeqHumanPatelGlioblastoma<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseScialdoneLiver\">jhsiao999/singleCellRNASeqMouseScialdoneLiver<\/a>","<a href=\"https://github.com/jhsiao999/bulkRNASeqMouseScialdoneESC\">jhsiao999/bulkRNASeqMouseScialdoneESC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseTreutleinLung\">jhsiao999/singleCellRNASeqMouseTreutleinLung<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqHumanTungiPSC\">jhsiao999/singleCellRNASeqHumanTungiPSC<\/a>","<a href=\"https://github.com/jhsiao999/singleCellRNASeqMouseZeiselBrain\">jhsiao999/singleCellRNASeqMouseZeiselBrain<\/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Authors<\/th>\n      <th>Year<\/th>\n      <th>Sample<\/th>\n      <th>Species<\/th>\n      <th>Cell type<\/th>\n      <th>Count<\/th>\n      <th>Control<\/th>\n      <th>Data<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="load-packages" class="section level3">
+<h3>Load packages</h3>
+<p>Shalek, A. K., Satija, R., Adiconis, X., Gertner, R. S., Gaublomme, J. T., Raychowdhury, R., et al. (2013). Single-cell transcriptomics reveals bimodality in expression and splicing in immune cells. Nature, 498(7453), 236–240. <a href="http://doi.org/10.1038/nature12172" class="uri">http://doi.org/10.1038/nature12172</a></p>
+</div>
+<div id="make-data-package" class="section level3">
+<h3>Make data package</h3>
+<pre class="r"><code>#---- conquer data
+library(&quot;MultiAssayExperiment&quot;)
+library(&quot;SummarizedExperiment&quot;)
+conquer &lt;- readRDS(file = &quot;../data/MouseShalekBMDC/GSE41265-conquer.rds&quot;)
+
+# extract gene-level data
+cts &lt;- SummarizedExperiment::assays(experiments(conquer)[[&quot;gene&quot;]])[[&quot;count&quot;]]
+pheno &lt;- pData(conquer)[[&quot;source_name_ch1&quot;]]
+gene_name &lt;- unlist(lapply(sapply(rownames(cts), function(x) strsplit(x, &quot;.&quot;, fixed = TRUE)), &quot;[[&quot;, 1))
+
+cell_id &lt;- paste0(&quot;cell.&quot;, c(1: length(pheno)))
+col_data &lt;- data.frame(cell_id = cell_id,
+                       cell_type = pheno, 
+                       row.names = cell_id)
+
+row_data &lt;- data.frame(gene_name = gene_name,
+                       row.names = gene_name)
+rownames(cts) &lt;- row_data$gene_name
+colnames(cts) &lt;- col_data$cell_id
+
+library(Biobase)
+conquer_eset &lt;- new(&quot;ExpressionSet&quot;,
+  exprs = as.matrix(cts),
+  phenoData = new(&quot;AnnotatedDataFrame&quot;,
+                  data = col_data),
+  featureData = new(&quot;AnnotatedDataFrame&quot;,
+                    data = row_data),
+  experimentData = new(&quot;MIAME&quot;,
+                       title = &quot;Shalek et al. 2013 Mouse Bone marrow-derived dendritic cells (downloded from Conquer)&quot;))
+
+save(conquer_eset, 
+        file = &quot;../data/all-rda/MouseShalekBMDC.rda&quot;)</code></pre>
+</div>
+<div id="session-information" class="section level3">
+<h3>Session information</h3>
+<pre class="r"><code>sessionInfo()</code></pre>
+</div>
 
 
 <!-- some extra javascript for older browsers -->

@@ -17,16 +17,17 @@ opts_chunk$set(eval = FALSE, echo = TRUE)
 
 ### Load packages
 
-```{r}
+```{r, echo = FALSE}
 library(data.table)
 library(Biobase)
 ```
 
 Reference: Alex K. Shalek, Rahul Satija, Joe Shuga, John J. Trombetta, Dave Gennert, Diana Lu, Peilin Chen, Rona S. Gertner, Jellert T. Gaublomme, Nir Yosef, Schraga Schwartz, Brian Fowler, Suzanne Weaver, Jing Wang, Xiaohui Wang, Ruihua Ding, Raktima Raychowdhury, Nir Friedman, Nir Hacohen, Hongkun Park, Andrew P. May & Aviv Regev. Single-cell RNA-seq reveals dynamic paracrine control of cellular variation. Nature 510, 363-369. DOI:10.1038/nature13437
 
-
+### Make data package
 
 ```{r, eval = F}
+#----- GSE data
 # import annotation matrix, conver to a DatFrame object
 df_col_data <- as.matrix(
     fread("../data/MouseZeiselBrain/expression_mRNA_17-Aug-2014.txt") )[1:10, ]
@@ -115,8 +116,6 @@ MouseZeiselBrain <- new("ExpressionSet",
                                           data = row_data),
                         experimentData = new("MIAME",
                                              title = "Zeisel Mouse Brain"))
-
-
 save(MouseZeiselBrain,
      file = "../data/all-rda/MouseZeiselBrain.rda")
 ```

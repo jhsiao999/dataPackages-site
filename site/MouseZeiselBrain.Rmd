@@ -17,7 +17,7 @@ opts_chunk$set(eval = FALSE, echo = TRUE)
 
 ### Load packages
 
-```{r}
+```{r, echo = FALSE}
 library(data.table)
 library(Biobase)
 ```

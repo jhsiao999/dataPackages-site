@@ -1,0 +1,75 @@
+---
+title: "Making MouseGuoPGC package"
+author: "Joyce Hsiao"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r, echo = FALSE}
+library(data.table)
+library(Biobase)
+```
+
+Guo, F., Yan, L., Guo, H., Li, L., Hu, B., Zhao, Y., et al. (2015). The Transcriptome and DNA Methylome Landscapes of Human Primordial Germ Cells. Cell, 161(6), 1437–1452. http://doi.org/10.1016/j.cell.2015.05.015
+
+
+### Make data package
+
+```{r, eval = F}
+#---- conquer data
+library("MultiAssayExperiment")
+library("SummarizedExperiment")
+conquer <- readRDS(file = "../data/MouseGuoPGC/GSE63818-GPL16791-conquer.rds")
+
+# extract gene-level data
+cts <- SummarizedExperiment::assays(experiments(conquer)[["gene"]])[["count"]]
+cell_type <- pData(conquer)[["source_name_ch1"]]
+gestation_week <- pData(conquer)[["characteristics_ch1"]]
+gestation_week <- unlist(lapply(sapply(as.character(gestation_week), function(x) strsplit(x, " ")), "[[", 3))
+gene_name <- unlist(lapply(sapply(rownames(cts), function(x) strsplit(x, ".", fixed = TRUE)), "[[", 1))
+
+
+cell_id <- paste0("cell.", c(1: length(cell_type)))
+col_data <- data.frame(cell_id = cell_id,
+                       cell_type = cell_type,
+                       gestation_week = gestation_week,
+                       row.names = cell_id)
+
+row_data <- data.frame(gene_name = gene_name,
+                       row.names = gene_name)
+rownames(cts) <- row_data$gene_name
+colnames(cts) <- col_data$cell_id
+
+library(Biobase)
+conquer_eset <- new("ExpressionSet",
+  exprs = as.matrix(cts),
+  phenoData = new("AnnotatedDataFrame",
+                  data = col_data),
+  featureData = new("AnnotatedDataFrame",
+                    data = row_data),
+  experimentData = new("MIAME",
+                       title = "Guo et al. 2015 mouse primodal germ cells (downloded from Conquer)"))
+
+save(conquer_eset, 
+        file = "../data/all-rda/MouseGuoPGC.rda")
+```
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+
+
