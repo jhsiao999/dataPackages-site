@@ -160,10 +160,10 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Data List</a></li>
-        <li><a href="dataDescription.html">Data Description</a></li>
+        <li><a href="dataDescription.md">Data Description</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="license.html">License</a></li>
-        <li><a href="https://github.com/jhsiao999/dataPackages-site">GitHub</a></li>
+        <li><a href="https://github.com/jhsiao999/dataPackages-site/site">GitHub</a></li>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -179,22 +179,24 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#load-packages">Load packages</a></li>
-<li><a href="#deng-et-al-2014-counts">Deng et al 2014, counts</a></li>
+<li><a href="#make-data-package">Make data package</a></li>
 <li><a href="#session-information">Session information</a></li>
 </ul>
 </div>
 
-<p><strong>Last updated:</strong> 2017-07-19</p>
-<p><strong>Code version:</strong> 72a99f06f707d45d51e8f6925975ef13bbbf0adb</p>
+<p><strong>Last updated:</strong> 2017-07-20</p>
+<p><strong>Code version:</strong> 333b400ca9793bf8b7b39cab15ee0816a1f24c93</p>
 <hr />
 <div id="load-packages" class="section level3">
 <h3>Load packages</h3>
 <pre class="r"><code>library(data.table)
 library(Biobase)</code></pre>
 </div>
-<div id="deng-et-al-2014-counts" class="section level3">
-<h3>Deng et al 2014, counts</h3>
-<pre class="r"><code>counts &lt;- read.table(&#39;../data/MouseDengESC/Deng_cell_data.txt&#39;, 
+<div id="make-data-package" class="section level3">
+<h3>Make data package</h3>
+<p>Use conquer data for now.</p>
+<pre class="r"><code>#----- GSE data 
+counts &lt;- read.table(&#39;../data/MouseDengESC/Deng_cell_data.txt&#39;, 
                     skip = 2, header = FALSE, stringsAsFactors = FALSE)
 geneNames &lt;- counts[,1]
 counts &lt;- counts[,-1]
@@ -229,11 +231,37 @@ eset_gse &lt;- new(&quot;ExpressionSet&quot;,
             experimentData = new(&quot;MIAME&quot;,
                                  title = &quot;Deng 2014 Mouse ESC (downloded from GEO)&quot;))
 
-# load the conquer-curated data
+#--- load the conquer-curated data
 library(&quot;MultiAssayExperiment&quot;)
-multiassay_conquer &lt;- readRDS(file = &quot;../data/MouseDengESC/conquer-GSE45719.rds&quot;)
+library(&quot;SummarizedExperiment&quot;)
+conquer &lt;- readRDS(file = &quot;../data/MouseDengESC/conquer-GSE45719.rds&quot;)
 
-save(eset_gse, multiassay_conquer, 
+# extract gene-level data
+cts &lt;- SummarizedExperiment::assays(experiments(conquer)[[&quot;gene&quot;]])[[&quot;count&quot;]]
+pheno &lt;- pData(conquer)[[&quot;source_name_ch1&quot;]]
+gene_name &lt;- unlist(lapply(sapply(rownames(cts), function(x) strsplit(x, &quot;.&quot;, fixed = TRUE)), &quot;[[&quot;, 1))
+
+cell_id &lt;- paste0(&quot;cell.&quot;, c(1: length(pheno)))
+col_data &lt;- data.frame(cell_id = cell_id,
+                       cell_type = pheno, 
+                       row.names = cell_id)
+
+row_data &lt;- data.frame(gene_name = gene_name,
+                       row.names = gene_name)
+rownames(cts) &lt;- row_data$gene_name
+colnames(cts) &lt;- col_data$cell_id
+
+library(Biobase)
+conquer_eset &lt;- new(&quot;ExpressionSet&quot;,
+            exprs = as.matrix(cts),
+            phenoData = new(&quot;AnnotatedDataFrame&quot;,
+                            data = col_data),
+            featureData = new(&quot;AnnotatedDataFrame&quot;,
+                              data = row_data),
+            experimentData = new(&quot;MIAME&quot;,
+                                 title = &quot;Deng 2014 Mouse ESC (downloded from Conquer)&quot;))
+
+save(conquer_eset, 
         file = &quot;../data/all-rda/MouseDengESC.rda&quot;)</code></pre>
 </div>
 <div id="session-information" class="section level3">

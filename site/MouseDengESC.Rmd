@@ -26,9 +26,12 @@ library(Biobase)
 ```
 
 
-### Deng et al 2014, counts
+### Make data package
+
+Use conquer data for now.
 
 ```{r, eval = F}
+#----- GSE data 
 counts <- read.table('../data/MouseDengESC/Deng_cell_data.txt', 
                     skip = 2, header = FALSE, stringsAsFactors = FALSE)
 geneNames <- counts[,1]
@@ -64,11 +67,37 @@ eset_gse <- new("ExpressionSet",
             experimentData = new("MIAME",
                                  title = "Deng 2014 Mouse ESC (downloded from GEO)"))
 
-# load the conquer-curated data
+#--- load the conquer-curated data
 library("MultiAssayExperiment")
-multiassay_conquer <- readRDS(file = "../data/MouseDengESC/conquer-GSE45719.rds")
+library("SummarizedExperiment")
+conquer <- readRDS(file = "../data/MouseDengESC/conquer-GSE45719.rds")
 
-save(eset_gse, multiassay_conquer, 
+# extract gene-level data
+cts <- SummarizedExperiment::assays(experiments(conquer)[["gene"]])[["count"]]
+pheno <- pData(conquer)[["source_name_ch1"]]
+gene_name <- unlist(lapply(sapply(rownames(cts), function(x) strsplit(x, ".", fixed = TRUE)), "[[", 1))
+
+cell_id <- paste0("cell.", c(1: length(pheno)))
+col_data <- data.frame(cell_id = cell_id,
+                       cell_type = pheno, 
+                       row.names = cell_id)
+
+row_data <- data.frame(gene_name = gene_name,
+                       row.names = gene_name)
+rownames(cts) <- row_data$gene_name
+colnames(cts) <- col_data$cell_id
+
+library(Biobase)
+conquer_eset <- new("ExpressionSet",
+            exprs = as.matrix(cts),
+            phenoData = new("AnnotatedDataFrame",
+                            data = col_data),
+            featureData = new("AnnotatedDataFrame",
+                              data = row_data),
+            experimentData = new("MIAME",
+                                 title = "Deng 2014 Mouse ESC (downloded from Conquer)"))
+
+save(conquer_eset, 
         file = "../data/all-rda/MouseDengESC.rda")
 ```
 

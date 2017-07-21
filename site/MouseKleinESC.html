@@ -157,14 +157,15 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">dataPackages</a>
+      <a class="navbar-brand" href="index.html">single cell RNA-seq</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">Data List</a></li>
+        <li><a href="dataDescription.md">Data Description</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="license.html">License</a></li>
-        <li><a href="https://github.com/jhsiao999/dataPackages-site">GitHub</a></li>
+        <li><a href="https://github.com/jhsiao999/dataPackages-site/site">GitHub</a></li>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -196,27 +197,31 @@ library(Biobase)</code></pre>
 day0 &lt;- data.table::fread(&quot;../data/MouseKleinESC/GSM1599494_ES_d0_main.csv&quot;)
 day2 &lt;- data.table::fread(&quot;../data/MouseKleinESC/GSM1599497_ES_d2_LIFminus.csv&quot;) 
 day4 &lt;- data.table::fread(&quot;../data/MouseKleinESC/GSM1599498_ES_d4_LIFminus.csv&quot;) 
+day7 &lt;- data.table::fread(&quot;../data/MouseKleinESC/GSM1599499_ES_d7_LIFminus.csv&quot;) 
 
 # save counts to a matrix object
 counts_day0 &lt;- day0[,-1]
 counts_day2 &lt;- day2[,-1]
-counts_day4 &lt;- day2[,-1]
+counts_day4 &lt;- day4[,-1]
+counts_day7 &lt;- day7[,-1]
 
 all.equal(rownames(counts_day0), rownames(counts_day2))
 all.equal(rownames(counts_day0), rownames(counts_day4))
+all.equal(rownames(counts_day0), rownames(counts_day7))
 
-counts &lt;- cbind(counts_day0, counts_day2, counts_day4)
+counts &lt;- cbind(counts_day0, counts_day2, counts_day4, counts_day7)
 
-colnames(counts) &lt;- c(paste0(&quot;sample.0.&quot;,c(1:NCOL(counts_day0))),
-                      paste0(&quot;sample.2.&quot;,c(1:NCOL(counts_day2))),
-                      paste0(&quot;sample.4.&quot;,c(1:NCOL(counts_day4))) )
+colnames(counts) &lt;- c(paste0(&quot;day.0.&quot;,c(1:NCOL(counts_day0))),
+                      paste0(&quot;day.2.&quot;,c(1:NCOL(counts_day2))),
+                      paste0(&quot;day.4.&quot;,c(1:NCOL(counts_day4))),
+                      paste0(&quot;day.7.&quot;,c(1:NCOL(counts_day7))))
 rownames(counts) &lt;- unlist(day0[,1])
 
 # make phenoData object
 col_data &lt;- data.frame(
   sample_id = colnames(counts),
   day = c( rep(0, length(colnames(counts_day0))), rep(2, length(colnames(counts_day2))),
-           rep(4, length(colnames(counts_day4)))  )) 
+           rep(4, length(colnames(counts_day4))), rep(7, length(colnames(counts_day7)))  )) 
 rownames(col_data) &lt;- colnames(counts)
 
 # make featureData object

@@ -1,0 +1,71 @@
+---
+title: "Making MouseShalekDendritic package"
+author: "Joyce Hsiao"
+date: "2017-03-30"
+output:
+  html_document:
+    css: floating-toc.css
+    toc: true
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE, echo = TRUE)
+```
+
+
+### Load packages
+
+```{r, echo = FALSE}
+library(data.table)
+library(Biobase)
+```
+
+Shalek, A. K., Satija, R., Adiconis, X., Gertner, R. S., Gaublomme, J. T., Raychowdhury, R., et al. (2013). Single-cell transcriptomics reveals bimodality in expression and splicing in immune cells. Nature, 498(7453), 236–240. http://doi.org/10.1038/nature12172
+
+### Make data package
+
+```{r, eval = F}
+#---- conquer data
+library("MultiAssayExperiment")
+library("SummarizedExperiment")
+conquer <- readRDS(file = "../data/MouseShalekBMDC/GSE41265-conquer.rds")
+
+# extract gene-level data
+cts <- SummarizedExperiment::assays(experiments(conquer)[["gene"]])[["count"]]
+pheno <- pData(conquer)[["source_name_ch1"]]
+gene_name <- unlist(lapply(sapply(rownames(cts), function(x) strsplit(x, ".", fixed = TRUE)), "[[", 1))
+
+cell_id <- paste0("cell.", c(1: length(pheno)))
+col_data <- data.frame(cell_id = cell_id,
+                       cell_type = pheno, 
+                       row.names = cell_id)
+
+row_data <- data.frame(gene_name = gene_name,
+                       row.names = gene_name)
+rownames(cts) <- row_data$gene_name
+colnames(cts) <- col_data$cell_id
+
+library(Biobase)
+conquer_eset <- new("ExpressionSet",
+  exprs = as.matrix(cts),
+  phenoData = new("AnnotatedDataFrame",
+                  data = col_data),
+  featureData = new("AnnotatedDataFrame",
+                    data = row_data),
+  experimentData = new("MIAME",
+                       title = "Shalek et al. 2013 Mouse Bone marrow-derived dendritic cells (downloded from Conquer)"))
+
+save(conquer_eset, 
+        file = "../data/all-rda/MouseShalekBMDC.rda")
+```
+
+
+### Session information
+
+```{r}
+sessionInfo()
+```
+
+
